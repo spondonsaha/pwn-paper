@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bug Report Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#f8fafc; color:#0f172a; font-family:'Inter',sans-serif; min-height:100vh; }
+
+header {
+  background:white; border-bottom:1px solid #e2e8f0;
+  padding:14px 36px; display:flex; align-items:center;
+  justify-content:space-between; flex-wrap:wrap; gap:10px;
+  position:sticky; top:0; z-index:100;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05);
+}
+.h-left { display:flex; align-items:center; gap:10px; }
+.h-icon { font-size:20px; }
+.h-title { font-size:15px; font-weight:700; }
+.h-sub { font-size:11px; color:#64748b; }
+.h-right { display:flex; align-items:center; gap:10px; }
+.h-right span { font-size:11px; color:#94a3b8; }
+.t-dots { display:flex; gap:7px; }
+.tdot { width:20px; height:20px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition:all 0.15s; }
+.tdot:hover { transform:scale(1.2); }
+.tdot.active { border-color:#0f172a; }
+
+.layout { display:grid; grid-template-columns:480px 1fr; min-height:calc(100vh - 57px); }
+
+/* ── FORM ── */
+.form-side { background:white; border-right:1px solid #e2e8f0; padding:24px 28px; overflow-y:auto; }
+
+.fsec {
+  font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  color:#94a3b8; margin:22px 0 12px; padding-bottom:8px;
+  border-bottom:1px solid #f1f5f9; display:flex; align-items:center; gap:8px;
+}
+.fsec:first-child { margin-top:0; }
+.opt-tag { font-size:9px; font-weight:600; color:#94a3b8; background:#f1f5f9; padding:2px 7px; border-radius:4px; letter-spacing:1px; }
+
+.fg { margin-bottom:12px; }
+.fg-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+
+label { display:block; font-size:12px; font-weight:500; color:#374151; margin-bottom:5px; }
+.hint { font-size:10px; color:#94a3b8; font-weight:400; margin-left:4px; }
+.req { color:#ef4444; }
+
+input[type="text"], input[type="email"], textarea {
+  width:100%; background:#f8fafc; border:1px solid #e2e8f0;
+  border-radius:7px; padding:9px 12px; color:#0f172a;
+  font-family:'Inter',sans-serif; font-size:13px; outline:none;
+  transition:all 0.15s; resize:vertical;
+}
+input:focus, textarea:focus { border-color:#6366f1; box-shadow:0 0 0 3px rgba(99,102,241,0.08); background:white; }
+textarea { min-height:78px; line-height:1.65; }
+textarea.tall { min-height:100px; }
+textarea.mono { font-family:'JetBrains Mono',monospace; font-size:12px; min-height:110px; }
+input::placeholder, textarea::placeholder { color:#cbd5e1; }
+
+/* Severity */
+.sev-row { display:flex; gap:5px; flex-wrap:wrap; }
+.sb { flex:1; min-width:58px; padding:7px 4px; border-radius:6px; border:1px solid #e2e8f0; background:#f8fafc; color:#94a3b8; font-size:11px; font-family:'Inter',sans-serif; font-weight:500; cursor:pointer; transition:all 0.15s; text-align:center; }
+.sb:hover { border-color:#cbd5e1; color:#374151; }
+.sb.s-critical { border-color:#ef4444; background:#fef2f2; color:#dc2626; font-weight:600; }
+.sb.s-high     { border-color:#f97316; background:#fff7ed; color:#ea580c; font-weight:600; }
+.sb.s-medium   { border-color:#eab308; background:#fefce8; color:#ca8a04; font-weight:600; }
+.sb.s-low      { border-color:#22c55e; background:#f0fdf4; color:#16a34a; font-weight:600; }
+.sb.s-info     { border-color:#3b82f6; background:#eff6ff; color:#2563eb; font-weight:600; }
+
+/* Steps */
+.steps-list { display:flex; flex-direction:column; gap:5px; }
+.sr { display:flex; align-items:center; gap:7px; }
+.sn { width:22px; height:22px; min-width:22px; background:#f1f5f9; color:#64748b; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; }
+.sr input { flex:1; }
+.brm { background:none; border:none; color:#cbd5e1; font-size:16px; cursor:pointer; padding:2px 4px; border-radius:4px; line-height:1; transition:color 0.15s; }
+.brm:hover { color:#ef4444; }
+.badd { display:inline-flex; align-items:center; gap:5px; margin-top:6px; padding:6px 12px; border-radius:6px; border:1px dashed #cbd5e1; background:none; color:#94a3b8; font-size:12px; font-family:'Inter',sans-serif; cursor:pointer; transition:all 0.15s; }
+.badd:hover { border-color:#6366f1; color:#6366f1; background:#eef2ff; }
+
+/* HTTP section tabs */
+.http-tabs { display:flex; gap:0; margin-bottom:8px; border:1px solid #e2e8f0; border-radius:7px; overflow:hidden; }
+.http-tab { flex:1; padding:7px 10px; font-size:11px; font-weight:500; font-family:'Inter',sans-serif; cursor:pointer; border:none; background:#f8fafc; color:#94a3b8; transition:all 0.15s; text-align:center; }
+.http-tab.active { background:white; color:#0f172a; box-shadow:inset 0 -2px 0 #0f172a; }
+.http-tab:hover:not(.active) { color:#374151; }
+
+.gen-btn { width:100%; padding:12px; border-radius:8px; border:none; background:#0f172a; color:white; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s; margin-top:18px; }
+.gen-btn:hover { background:#1e293b; box-shadow:0 4px 14px rgba(15,23,42,0.25); }
+
+/* ── PREVIEW ── */
+.preview-side { background:#f1f5f9; padding:28px 36px; overflow-y:auto; }
+.ptop { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+.plabel { font-size:10px; font-weight:700; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; }
+.exp-btn { display:flex; align-items:center; gap:6px; padding:7px 16px; border-radius:7px; border:1px solid #e2e8f0; background:white; color:#374151; font-family:'Inter',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all 0.15s; box-shadow:0 1px 2px rgba(0,0,0,0.05); }
+.exp-btn:hover { border-color:#6366f1; color:#6366f1; }
+
+.empty { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:400px; gap:10px; text-align:center; }
+.empty-ic { font-size:44px; opacity:0.3; }
+.empty-t { font-size:14px; color:#64748b; font-weight:500; }
+.empty-s { font-size:12px; color:#94a3b8; }
+
+/* ── SELECTION TOOLTIP ── */
+#sel-tooltip {
+  position:fixed; z-index:9999; display:none;
+  background:#0f172a; color:white;
+  border-radius:8px; padding:6px 4px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  display:none; gap:2px;
+  flex-direction:column;
+  min-width:160px;
+}
+#sel-tooltip button {
+  background:none; border:none; color:white;
+  font-size:12px; font-family:'Inter',sans-serif;
+  padding:6px 12px; cursor:pointer;
+  border-radius:6px; text-align:left;
+  transition:background 0.1s; white-space:nowrap;
+  display:flex; align-items:center; gap:8px;
+}
+#sel-tooltip button:hover { background:rgba(255,255,255,0.1); }
+#sel-tooltip .sep { height:1px; background:rgba(255,255,255,0.1); margin:2px 0; }
+
+/* ── REPORT ── */
+.rcard { background:white; border-radius:10px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04); font-family:'Inter',sans-serif; }
+
+.r-topbar { background:#0f172a; padding:10px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
+.r-topbar-label { font-size:9px; letter-spacing:3px; color:rgba(255,255,255,0.4); font-family:'JetBrains Mono',monospace; text-transform:uppercase; }
+.r-topbar-meta { font-size:9px; color:rgba(255,255,255,0.3); font-family:'JetBrains Mono',monospace; letter-spacing:1px; }
+
+.r-header { padding:22px 28px; border-bottom:1px solid #e2e8f0; display:flex; gap:0; }
+.r-accent-bar { width:4px; border-radius:2px; flex-shrink:0; margin-right:18px; align-self:stretch; min-height:70px; }
+.r-header-content { flex:1; min-width:0; }
+.r-header-chips { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+.r-sev-chip { font-size:10px; font-weight:700; padding:3px 10px; border-radius:4px; font-family:'JetBrains Mono',monospace; letter-spacing:0.5px; border-width:1px; border-style:solid; }
+.r-type-chip { font-size:10px; color:#64748b; font-family:'JetBrains Mono',monospace; background:#f1f5f9; padding:3px 10px; border-radius:4px; }
+.r-title { font-size:19px; font-weight:700; color:#0f172a; line-height:1.3; margin-bottom:14px; }
+.r-meta-grid { display:flex; flex-wrap:wrap; gap:20px; }
+.r-meta-item { display:flex; flex-direction:column; gap:2px; }
+.r-meta-key { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#94a3b8; font-family:'JetBrains Mono',monospace; }
+.r-meta-val { font-size:12px; color:#374151; font-weight:500; }
+
+.r-researcher { margin:20px 28px 0; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px; display:flex; flex-wrap:wrap; gap:20px; background:#fafafa; }
+.r-res-item { display:flex; align-items:center; gap:8px; }
+.r-res-icon { font-size:13px; }
+.r-res-label { font-size:9px; color:#94a3b8; font-family:'JetBrains Mono',monospace; letter-spacing:1px; text-transform:uppercase; display:block; }
+.r-res-val { font-size:12px; color:#374151; font-weight:500; }
+
+.r-body { padding:22px 28px; }
+.r-section { margin-bottom:22px; }
+.r-section-label { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#64748b; margin-bottom:10px; display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; }
+.r-section-num { width:20px; height:20px; border-radius:4px; background:#0f172a; color:white; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+.r-section-label::after { content:''; flex:1; height:1px; background:#f1f5f9; }
+.r-text { font-size:13px; line-height:1.8; color:#374151; }
+
+.r-url { background:#f8fafc; border:1px solid #e2e8f0; border-left:3px solid #0f172a; border-radius:6px; padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:12px; color:#374151; word-break:break-all; }
+.r-params { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.r-param { padding:4px 10px; border-radius:5px; background:#f1f5f9; border:1px solid #e2e8f0; font-size:11px; font-family:'JetBrains Mono',monospace; color:#374151; }
+
+.r-cvss { display:inline-flex; align-items:center; gap:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:7px; padding:10px 16px; flex-wrap:wrap; }
+.r-cvss-score { font-size:22px; font-weight:700; font-family:'JetBrains Mono',monospace; }
+.r-cvss-rating { font-size:10px; font-weight:700; padding:3px 10px; border-radius:4px; font-family:'JetBrains Mono',monospace; }
+.r-cvss-vector { font-size:10px; color:#94a3b8; font-family:'JetBrains Mono',monospace; word-break:break-all; }
+
+.r-steps { display:flex; flex-direction:column; gap:6px; }
+.r-step { display:flex; align-items:flex-start; gap:10px; padding:9px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; font-size:13px; color:#374151; line-height:1.6; }
+.r-step-num { min-width:20px; height:20px; background:#0f172a; color:white; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; flex-shrink:0; margin-top:1px; }
+
+/* Code block */
+.r-code-block {
+  background:#0f172a;
+  border-radius:8px;
+  overflow:hidden;
+  margin-bottom:8px;
+}
+.r-code-header {
+  background:#1e293b;
+  padding:7px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.r-code-lang { font-size:10px; font-family:'JetBrains Mono',monospace; color:#94a3b8; letter-spacing:1px; }
+.r-code-label { font-size:9px; font-family:'JetBrains Mono',monospace; color:#475569; letter-spacing:1px; }
+.r-code-body { padding:14px; overflow-x:auto; }
+.r-code-body pre { font-family:'JetBrains Mono',monospace; font-size:12px; color:#e2e8f0; line-height:1.7; white-space:pre-wrap; word-break:break-all; }
+
+/* HTTP blocks */
+.r-http-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.r-http-block { border-radius:8px; overflow:hidden; border:1px solid #e2e8f0; }
+.r-http-head { padding:8px 14px; display:flex; align-items:center; gap:8px; }
+.r-http-head-label { font-size:10px; font-weight:700; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+.r-http-body { background:#0f172a; padding:14px; overflow-x:auto; }
+.r-http-body pre { font-family:'JetBrains Mono',monospace; font-size:11px; color:#e2e8f0; line-height:1.7; white-space:pre-wrap; word-break:break-all; }
+
+.r-impact { border-radius:7px; padding:14px 16px; font-size:13px; color:#374151; line-height:1.8; border:1px solid; border-left:3px solid; }
+.r-rem { border-radius:7px; padding:14px 16px; font-size:13px; color:#374151; line-height:1.8; border:1px solid; border-left:3px solid; }
+
+.r-refs { display:flex; flex-direction:column; gap:5px; }
+.r-ref { font-size:12px; font-family:'JetBrains Mono',monospace; word-break:break-all; display:flex; align-items:flex-start; gap:8px; padding:7px 0; border-bottom:1px solid #f1f5f9; }
+.r-ref:last-child { border-bottom:none; }
+.r-ref-num { font-size:9px; font-weight:700; color:#94a3b8; font-family:'JetBrains Mono',monospace; flex-shrink:0; padding-top:2px; }
+
+.r-footer { background:#0f172a; padding:12px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
+.r-footer-text { font-size:10px; color:rgba(255,255,255,0.3); font-family:'JetBrains Mono',monospace; letter-spacing:1px; }
+
+/* Snippets in report body */
+.r-inline-code { display:inline-block; background:#0f172a; color:#e2e8f0; font-family:'JetBrains Mono',monospace; font-size:12px; padding:2px 8px; border-radius:4px; }
+
+/* ── DRAG & DROP ── */
+.r-section {
+  position:relative;
+  border-radius:6px;
+  transition:opacity 0.15s;
+}
+.r-section.dragging {
+  opacity:0.35;
+  background:#f8fafc;
+  outline:2px dashed #cbd5e1;
+}
+.r-section.drag-over-top {
+  border-top:2px solid #6366f1 !important;
+  padding-top:6px;
+}
+.r-section.drag-over-bottom {
+  border-bottom:2px solid #6366f1 !important;
+  padding-bottom:6px;
+}
+.drag-handle {
+  position:absolute;
+  left:-26px;
+  top:50%;
+  transform:translateY(-50%);
+  width:20px;
+  height:28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  cursor:grab;
+  opacity:0;
+  transition:opacity 0.15s;
+  border-radius:4px;
+}
+.drag-handle:active { cursor:grabbing; }
+.drag-handle span {
+  display:block;
+  width:12px;
+  height:1.5px;
+  background:#94a3b8;
+  border-radius:2px;
+}
+.r-section:hover .drag-handle { opacity:1; }
+.drag-handle:hover { background:#f1f5f9; opacity:1 !important; }
+
+/* Drag hint tooltip */
+.drag-hint {
+  position:absolute;
+  left:-28px;
+  top:0;
+  background:#0f172a;
+  color:white;
+  font-size:9px;
+  font-family:'JetBrains Mono',monospace;
+  padding:3px 8px;
+  border-radius:4px;
+  white-space:nowrap;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.2s;
+  letter-spacing:1px;
+}
+.r-section:hover .drag-hint { opacity:0; }
+
+/* Preview drag mode banner */
+.drag-mode-banner {
+  display:none;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+  border-radius:8px;
+  font-size:11px;
+  color:#4338ca;
+  font-family:'Inter',sans-serif;
+  margin-bottom:14px;
+}
+.drag-mode-banner.visible { display:flex; }
+.drag-mode-banner span { font-size:14px; }
+
+@media (max-width:900px) {
+  .layout { grid-template-columns:1fr; }
+  .form-side { border-right:none; border-bottom:1px solid #e2e8f0; padding:18px 16px; }
+  .preview-side { padding:18px 16px; }
+  .fg-row { grid-template-columns:1fr; }
+  header { padding:12px 16px; }
+  .r-http-grid { grid-template-columns:1fr; }
+}
+
+/* ── PRINT / PDF PAGE BREAK FIXES ── */
+@media print {
+  header,.form-side,.ptop,#sel-tooltip,.drag-mode-banner { display:none !important; }
+  body { background:white; }
+  .layout { display:block; }
+  .preview-side { padding:0; background:white; }
+  .rcard { box-shadow:none; border-radius:0; }
+  *{ -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; }
+
+  /* Prevent the card itself from being clipped */
+  .rcard { overflow:visible !important; }
+
+  /* Keep header + researcher block together, never split */
+  .r-topbar,
+  .r-header,
+  .r-researcher { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Each section should stay together on one page if possible */
+  .r-section { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Section label should never be orphaned from its content */
+  .r-section-label { page-break-after:avoid; break-after:avoid; }
+
+  /* Keep each step together */
+  .r-step { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Keep code blocks together */
+  .r-code-block { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Keep HTTP blocks together */
+  .r-http-block { page-break-inside:avoid; break-inside:avoid; }
+  .r-http-grid  { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Keep CVSS row together */
+  .r-cvss { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Keep impact / remediation boxes together */
+  .r-impact { page-break-inside:avoid; break-inside:avoid; }
+  .r-rem    { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Keep researcher info block together */
+  .r-researcher { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Footer should stay with the last section */
+  .r-footer { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Never break inside a reference entry */
+  .r-ref { page-break-inside:avoid; break-inside:avoid; }
+
+  /* Add a little top margin when a section is pushed to a new page */
+  .r-section + .r-section { margin-top:0; }
+}
+</style>
+</head>
+<body>
+
+<!-- Selection Tooltip -->
+<div id="sel-tooltip">
+  <button onclick="wrapSnippet('code')">💻 Inline Code</button>
+  <button onclick="wrapSnippet('http-request')">📤 HTTP Request Block</button>
+  <button onclick="wrapSnippet('http-response')">📥 HTTP Response Block</button>
+  <button onclick="wrapSnippet('payload')">⚡ Payload Block</button>
+  <div class="sep"></div>
+  <button onclick="wrapSnippet('bold')">𝐁 Bold text</button>
+</div>
+
+<header>
+  <div class="h-left">
+    <div class="h-icon">📄</div>
+    <div>
+      <div class="h-title">Bug Report Generator</div>
+      <div class="h-sub">Professional vulnerability report builder</div>
+    </div>
+  </div>
+  <div class="h-right">
+    <span>Accent:</span>
+    <div class="t-dots">
+      <div class="tdot active" style="background:#dc2626" title="Red" onclick="setColor('red',this)"></div>
+      <div class="tdot" style="background:#2563eb" title="Blue" onclick="setColor('blue',this)"></div>
+      <div class="tdot" style="background:#595e69" title="Ash" onclick="setColor('Ash',this)"></div>
+      <div class="tdot" style="background:#16a34a" title="Green" onclick="setColor('green',this)"></div>
+      <div class="tdot" style="background:#7c3aed" title="Violet" onclick="setColor('violet',this)"></div>
+      <div class="tdot" style="background:#0891b2" title="Teal" onclick="setColor('teal',this)"></div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── FORM ── -->
+  <div class="form-side">
+
+    <div class="fsec">Researcher Info <span class="opt-tag">optional</span></div>
+    <div class="fg">
+      <label>Full Name / Handle</label>
+      <input type="text" id="researcher" placeholder="e.g. Spondon Saha" />
+    </div>
+    <div class="fg-row">
+      <div><label>Email</label><input type="email" id="email" placeholder="researcher@email.com" /></div>
+      <div><label>LinkedIn</label><input type="text" id="linkedin" placeholder="linkedin.com/in/username" /></div>
+    </div>
+    <div class="fg">
+      <label>GitHub</label>
+      <input type="text" id="github" placeholder="github.com/username" />
+    </div>
+
+    <div class="fsec">Report Info</div>
+    <div class="fg-row">
+      <div><label>Target / Program</label><input type="text" id="target" placeholder="target.com / Program" /></div>
+      <div><label>Report Date</label><input type="text" id="repdate" /></div>
+    </div>
+
+    <div class="fsec">Vulnerability Details</div>
+    <div class="fg">
+      <label>Title <span class="req">*</span></label>
+      <input type="text" id="title" placeholder="Short descriptive title of the vulnerability" />
+    </div>
+    <div class="fg">
+      <label>Severity <span class="req">*</span></label>
+      <div class="sev-row">
+        <button class="sb" onclick="setSev('Critical',this)">🔴 Critical</button>
+        <button class="sb" onclick="setSev('High',this)">🟠 High</button>
+        <button class="sb" onclick="setSev('Medium',this)">🟡 Medium</button>
+        <button class="sb" onclick="setSev('Low',this)">🟢 Low</button>
+        <button class="sb" onclick="setSev('Info',this)">🔵 Info</button>
+      </div>
+    </div>
+    <div class="fg-row">
+      <div><label>Vulnerability Type</label><input type="text" id="vulntype" placeholder="e.g. XSS, IDOR, SSRF..." /></div>
+      <div><label>CWE ID <span class="hint">optional</span></label><input type="text" id="cweid" placeholder="e.g. CWE-79" /></div>
+    </div>
+    <div class="fg">
+      <label>Affected Endpoint / URL</label>
+      <input type="text" id="url" placeholder="https://target.com/api/endpoint" />
+    </div>
+    <div class="fg">
+      <label>Affected Parameter <span class="hint">optional — comma separated</span></label>
+      <input type="text" id="param" placeholder="e.g. user_id, redirect, file" />
+    </div>
+
+    <div class="fsec">CVSS Score <span class="opt-tag">optional</span></div>
+    <div class="fg-row">
+      <div><label>Score <span class="hint">0.0–10.0</span></label><input type="text" id="cvss-score" placeholder="e.g. 8.1" oninput="calcCvss()" /></div>
+      <div><label>Rating</label><input type="text" id="cvss-rating" placeholder="Auto filled" readonly style="background:#f1f5f9;color:#94a3b8" /></div>
+    </div>
+    <div class="fg">
+      <label>CVSS Vector</label>
+      <input type="text" id="cvss-vector" placeholder="CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N" />
+    </div>
+
+    <div class="fsec">Report Content</div>
+    <div class="fg">
+      <label>Summary <span class="req">*</span> <span class="hint">— select text for formatting options</span></label>
+      <textarea id="summary" class="tall" placeholder="Describe the vulnerability..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label>Steps to Reproduce <span class="req">*</span></label>
+      <div class="steps-list" id="steps-list">
+        <div class="sr"><div class="sn">1</div><input type="text" placeholder="First step..." /><button class="brm" onclick="rmStep(this)">×</button></div>
+        <div class="sr"><div class="sn">2</div><input type="text" placeholder="Second step..." /><button class="brm" onclick="rmStep(this)">×</button></div>
+        <div class="sr"><div class="sn">3</div><input type="text" placeholder="Third step..." /><button class="brm" onclick="rmStep(this)">×</button></div>
+      </div>
+      <button class="badd" onclick="addStep()">+ Add Step</button>
+    </div>
+
+    <div class="fg">
+      <label>Impact <span class="req">*</span> <span class="hint">— select text for formatting options</span></label>
+      <textarea id="impact" class="tall" placeholder="What can an attacker achieve?"></textarea>
+    </div>
+
+    <!-- HTTP Request / Response -->
+    <div class="fsec">HTTP Request / Response <span class="opt-tag">optional</span></div>
+    <div class="fg">
+      <label>HTTP Request <span class="hint">— paste raw Burp Suite request</span></label>
+      <textarea id="http-req" class="mono" placeholder="POST /api/v1/user HTTP/1.1&#10;Host: target.com&#10;Authorization: Bearer eyJ...&#10;Content-Type: application/json&#10;&#10;{&quot;user_id&quot;: &quot;1337&quot;, &quot;role&quot;: &quot;admin&quot;}"></textarea>
+    </div>
+    <div class="fg">
+      <label>HTTP Response <span class="hint">— paste raw Burp Suite response</span></label>
+      <textarea id="http-res" class="mono" placeholder="HTTP/1.1 200 OK&#10;Content-Type: application/json&#10;&#10;{&quot;success&quot;: true, &quot;role&quot;: &quot;admin&quot;, &quot;message&quot;: &quot;Role updated&quot;}"></textarea>
+    </div>
+
+    <!-- Code Snippets -->
+    <div class="fsec">Code Snippets <span class="opt-tag">optional</span></div>
+    <div id="snippets-container">
+      <!-- snippets added dynamically -->
+    </div>
+    <button class="badd" onclick="addSnippet()">+ Add Code Snippet</button>
+
+    <div class="fsec">Remediation & References</div>
+    <div class="fg">
+      <label>Remediation <span class="hint">optional</span></label>
+      <textarea id="remediation" placeholder="Recommended fix or mitigation steps..."></textarea>
+    </div>
+    <div class="fg">
+      <label>References <span class="hint">optional — one per line</span></label>
+      <textarea id="references" placeholder="https://owasp.org/...&#10;https://portswigger.net/...&#10;CVE-XXXX-XXXXX"></textarea>
+    </div>
+
+    <button class="gen-btn" onclick="generate()">Generate Report →</button>
+  </div>
+
+  <!-- ── PREVIEW ── -->
+  <div class="preview-side">
+    <div class="ptop">
+      <div class="plabel">Preview</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="exp-btn" id="drag-toggle-btn" onclick="toggleDragMode()" style="color:#6366f1;border-color:#c7d2fe;background:#eef2ff">⠿ Reorder Sections</button>
+        <button class="exp-btn" onclick="window.print()">🖨️ Export as PDF</button>
+      </div>
+    </div>
+    <div class="drag-mode-banner" id="drag-banner">
+      <span>⠿</span>
+      <span>Drag the <strong>handle</strong> on the left of each section to reorder. Numbers update automatically.</span>
+    </div>
+    <div id="output">
+      <div class="empty">
+        <div class="empty-ic">📋</div>
+        <div class="empty-t">Your report will appear here</div>
+        <div class="empty-s">Fill in the details and click Generate Report</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── STATE ── */
+let sev = '';
+let accentColor = 'red';
+let snippetCount = 0;
+let activeTextarea = null;
+let selStart = 0, selEnd = 0;
+
+document.getElementById('repdate').value = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+/* ── COLORS ── */
+const COLORS = {
+  red:    { bar:'#dc2626', chipBg:'#fef2f2', chipBorder:'#fecaca', chipText:'#dc2626', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
+  blue:   { bar:'#2563eb', chipBg:'#eff6ff', chipBorder:'#bfdbfe', chipText:'#1d4ed8', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
+  green:  { bar:'#16a34a', chipBg:'#f0fdf4', chipBorder:'#bbf7d0', chipText:'#15803d', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#eff6ff', remBorder:'#bfdbfe', remLeft:'#3b82f6' },
+  violet: { bar:'#7c3aed', chipBg:'#f5f3ff', chipBorder:'#ddd6fe', chipText:'#6d28d9', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
+  teal:   { bar:'#0891b2', chipBg:'#ecfeff', chipBorder:'#a5f3fc', chipText:'#0e7490', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
+};
+
+const SEV_STYLES = {
+  Critical:{ bg:'#fef2f2', border:'#fecaca', text:'#dc2626' },
+  High:    { bg:'#fff7ed', border:'#fed7aa', text:'#ea580c' },
+  Medium:  { bg:'#fefce8', border:'#fde68a', text:'#ca8a04' },
+  Low:     { bg:'#f0fdf4', border:'#bbf7d0', text:'#16a34a' },
+  Info:    { bg:'#eff6ff', border:'#bfdbfe', text:'#2563eb' },
+};
+
+const CVSS_COLORS = {
+  Critical:{ bg:'#fef2f2', text:'#dc2626' },
+  High:    { bg:'#fff7ed', text:'#ea580c' },
+  Medium:  { bg:'#fefce8', text:'#ca8a04' },
+  Low:     { bg:'#f0fdf4', text:'#16a34a' },
+  None:    { bg:'#f1f5f9', text:'#64748b' },
+};
+
+function setColor(name, dot) {
+  accentColor = name;
+  document.querySelectorAll('.tdot').forEach(d=>d.classList.remove('active'));
+  dot.classList.add('active');
+  if (document.querySelector('.rcard')) generate();
+}
+
+function setSev(val, btn) {
+  sev = val;
+  document.querySelectorAll('.sb').forEach(b=>b.className='sb');
+  btn.classList.add('s-'+val.toLowerCase());
+}
+
+function calcCvss() {
+  const score = parseFloat(document.getElementById('cvss-score').value);
+  const el = document.getElementById('cvss-rating');
+  if (isNaN(score)) { el.value=''; return; }
+  if (score===0) el.value='None';
+  else if (score<=3.9) el.value='Low';
+  else if (score<=6.9) el.value='Medium';
+  else if (score<=8.9) el.value='High';
+  else el.value='Critical';
+}
+
+function addStep() {
+  const list = document.getElementById('steps-list');
+  const n = list.children.length+1;
+  const row = document.createElement('div');
+  row.className='sr';
+  row.innerHTML=`<div class="sn">${n}</div><input type="text" placeholder="Step ${n}..." /><button class="brm" onclick="rmStep(this)">×</button>`;
+  list.appendChild(row);
+}
+
+function rmStep(btn) {
+  const list=document.getElementById('steps-list');
+  if (list.children.length<=1) return;
+  btn.parentElement.remove();
+  Array.from(list.children).forEach((r,i)=>r.querySelector('.sn').textContent=i+1);
+}
+
+function getSteps() {
+  return Array.from(document.querySelectorAll('#steps-list input')).map(i=>i.value.trim()).filter(Boolean);
+}
+
+/* ── CODE SNIPPETS ── */
+function addSnippet(lang='', code='') {
+  snippetCount++;
+  const id = 'snippet-'+snippetCount;
+  const wrap = document.createElement('div');
+  wrap.id = id;
+  wrap.style.cssText = 'margin-bottom:10px;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden';
+  wrap.innerHTML = `
+    <div style="background:#f8fafc;padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #e2e8f0">
+      <select style="font-size:11px;padding:3px 8px;border:1px solid #e2e8f0;border-radius:5px;background:white;color:#374151;font-family:inherit;outline:none;flex:1">
+        <option value="http-request" ${lang==='http-request'?'selected':''}>HTTP Request</option>
+        <option value="http-response" ${lang==='http-response'?'selected':''}>HTTP Response</option>
+        <option value="payload" ${lang==='payload'?'selected':''}>Payload</option>
+        <option value="bash" ${lang==='bash'?'selected':''}>Bash / Command</option>
+        <option value="javascript" ${lang==='javascript'?'selected':''}>JavaScript</option>
+        <option value="python" ${lang==='python'?'selected':''}>Python</option>
+        <option value="json" ${lang==='json'?'selected':''}>JSON</option>
+        <option value="xml" ${lang==='xml'?'selected':''}>XML</option>
+        <option value="code" ${lang==='code'?'selected':''}>Generic Code</option>
+      </select>
+      <button onclick="document.getElementById('${id}').remove()" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:14px;padding:2px 6px;border-radius:4px" title="Remove">×</button>
+    </div>
+    <textarea class="mono" style="border:none;border-radius:0;background:#f8fafc;min-height:90px" placeholder="Paste your code or payload here...">${code}</textarea>
+  `;
+  document.getElementById('snippets-container').appendChild(wrap);
+}
+
+function getSnippets() {
+  const results = [];
+  document.querySelectorAll('#snippets-container > div').forEach(wrap => {
+    const lang = wrap.querySelector('select').value;
+    const code = wrap.querySelector('textarea').value.trim();
+    if (code) results.push({ lang, code });
+  });
+  return results;
+}
+
+/* ── SELECTION TOOLTIP ── */
+const tooltip = document.getElementById('sel-tooltip');
+
+document.addEventListener('mouseup', function(e) {
+  if (e.target.closest('#sel-tooltip')) return;
+  const ta = e.target.closest('textarea');
+  if (ta && (ta.id==='summary'||ta.id==='impact')) {
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    if (start !== end) {
+      activeTextarea = ta;
+      selStart = start;
+      selEnd = end;
+      const rect = ta.getBoundingClientRect();
+      let x = e.clientX;
+      let y = e.clientY - 140;
+      if (y < 10) y = e.clientY + 10;
+      tooltip.style.left = Math.min(x, window.innerWidth-180)+'px';
+      tooltip.style.top = y+'px';
+      tooltip.style.display = 'flex';
+      return;
+    }
+  }
+  tooltip.style.display = 'none';
+  activeTextarea = null;
+});
+
+document.addEventListener('mousedown', function(e) {
+  if (!e.target.closest('#sel-tooltip')) {
+    tooltip.style.display = 'none';
+  }
+});
+
+function wrapSnippet(type) {
+  tooltip.style.display = 'none';
+  if (!activeTextarea) return;
+
+  const val = activeTextarea.value;
+  const selected = val.slice(selStart, selEnd);
+
+  let wrapped = '';
+  if (type === 'code') {
+    wrapped = '`' + selected + '`';
+  } else if (type === 'bold') {
+    wrapped = '**' + selected + '**';
+  } else if (type === 'http-request') {
+    addSnippet('http-request', selected);
+    wrapped = '[→ See HTTP Request below]';
+  } else if (type === 'http-response') {
+    addSnippet('http-response', selected);
+    wrapped = '[→ See HTTP Response below]';
+  } else if (type === 'payload') {
+    addSnippet('payload', selected);
+    wrapped = '[→ See Payload below]';
+  }
+
+  activeTextarea.value = val.slice(0,selStart) + wrapped + val.slice(selEnd);
+  activeTextarea = null;
+}
+
+/* ── HELPERS ── */
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderText(s) {
+  // Handle `code`, **bold**, newlines
+  return s
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/`([^`]+)`/g,'<span class="r-inline-code">$1</span>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+}
+
+function sevDot(s) { return {Critical:'🔴',High:'🟠',Medium:'🟡',Low:'🟢',Info:'🔵'}[s]||''; }
+
+const LANG_LABELS = {
+  'http-request':'HTTP Request','http-response':'HTTP Response',
+  'payload':'Payload','bash':'Bash / Command',
+  'javascript':'JavaScript','python':'Python',
+  'json':'JSON','xml':'XML','code':'Code',
+};
+
+/* ── GENERATE ── */
+function generate() {
+  const title = document.getElementById('title').value.trim();
+  const summary = document.getElementById('summary').value.trim();
+  const impact = document.getElementById('impact').value.trim();
+  if (!title||!summary||!impact) { alert('Please fill in: Title, Summary, and Impact'); return; }
+
+  const researcher = document.getElementById('researcher').value.trim();
+  const email      = document.getElementById('email').value.trim();
+  const linkedin   = document.getElementById('linkedin').value.trim();
+  const github     = document.getElementById('github').value.trim();
+  const target     = document.getElementById('target').value.trim();
+  const repdate    = document.getElementById('repdate').value.trim();
+  const url        = document.getElementById('url').value.trim();
+  const vulntype   = document.getElementById('vulntype').value.trim();
+  const cweid      = document.getElementById('cweid').value.trim();
+  const param      = document.getElementById('param').value.trim();
+  const cvssScore  = document.getElementById('cvss-score').value.trim();
+  const cvssRating = document.getElementById('cvss-rating').value.trim();
+  const cvssVector = document.getElementById('cvss-vector').value.trim();
+  const httpReq    = document.getElementById('http-req').value.trim();
+  const httpRes    = document.getElementById('http-res').value.trim();
+  const remediation= document.getElementById('remediation').value.trim();
+  const references = document.getElementById('references').value.trim();
+  const steps = getSteps();
+  const snippets = getSnippets();
+
+  const c = COLORS[accentColor];
+  const ss = sev ? SEV_STYLES[sev] : null;
+  const rid = 'VR-' + Date.now().toString(36).toUpperCase().slice(-6);
+  const params = param ? param.split(',').map(p=>p.trim()).filter(Boolean) : [];
+
+  let secNum = 0;
+  const sec = (label) => `<div class="r-section-num">${++secNum}</div>${label}`;
+
+  // Researcher
+  const resItems = [];
+  if (researcher) resItems.push(`<div class="r-res-item"><span class="r-res-icon">👤</span><div><span class="r-res-label">Researcher</span><span class="r-res-val">${esc(researcher)}</span></div></div>`);
+  if (email)      resItems.push(`<div class="r-res-item"><span class="r-res-icon">✉️</span><div><span class="r-res-label">Email</span><span class="r-res-val">${esc(email)}</span></div></div>`);
+  if (linkedin)   resItems.push(`<div class="r-res-item"><span class="r-res-icon">💼</span><div><span class="r-res-label">LinkedIn</span><span class="r-res-val">${esc(linkedin)}</span></div></div>`);
+  if (github)     resItems.push(`<div class="r-res-item"><span class="r-res-icon">🐙</span><div><span class="r-res-label">GitHub</span><span class="r-res-val">${esc(github)}</span></div></div>`);
+
+  // CVSS
+  let cvssHtml = '';
+  if (cvssScore) {
+    const cc = CVSS_COLORS[cvssRating]||CVSS_COLORS['None'];
+    cvssHtml = `<div class="r-cvss">
+      <div class="r-cvss-score" style="color:${cc.text}">${esc(cvssScore)}</div>
+      ${cvssRating?`<span class="r-cvss-rating" style="background:${cc.bg};color:${cc.text}">${esc(cvssRating)}</span>`:''}
+      ${cvssVector?`<div class="r-cvss-vector">${esc(cvssVector)}</div>`:''}
+    </div>`;
+  }
+
+  // HTTP blocks
+  let httpHtml = '';
+  if (httpReq || httpRes) {
+    httpHtml = `<div class="r-http-grid">
+      ${httpReq?`<div class="r-http-block">
+        <div class="r-http-head" style="background:#1e293b">
+          <span style="width:8px;height:8px;border-radius:50%;background:#f97316;display:inline-block"></span>
+          <span class="r-http-head-label" style="color:#94a3b8">HTTP REQUEST</span>
+        </div>
+        <div class="r-http-body"><pre>${esc(httpReq)}</pre></div>
+      </div>`:''}
+      ${httpRes?`<div class="r-http-block">
+        <div class="r-http-head" style="background:#1e293b">
+          <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block"></span>
+          <span class="r-http-head-label" style="color:#94a3b8">HTTP RESPONSE</span>
+        </div>
+        <div class="r-http-body"><pre>${esc(httpRes)}</pre></div>
+      </div>`:''}
+    </div>`;
+  }
+
+  // Code snippets
+  const snippetsHtml = snippets.map(s => {
+    const label = LANG_LABELS[s.lang]||s.lang;
+    const dotColor = s.lang==='http-request'?'#f97316':s.lang==='http-response'?'#22c55e':s.lang==='payload'?'#f87171':'#94a3b8';
+    return `<div class="r-code-block">
+      <div class="r-code-header">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="width:8px;height:8px;border-radius:50%;background:${dotColor};display:inline-block"></span>
+          <span class="r-code-lang">${label.toUpperCase()}</span>
+        </div>
+      </div>
+      <div class="r-code-body"><pre>${esc(s.code)}</pre></div>
+    </div>`;
+  }).join('');
+
+  // Steps
+  const stepsHtml = steps.length
+    ? `<div class="r-steps">${steps.map((s,i)=>`<div class="r-step"><div class="r-step-num">${i+1}</div><div>${renderText(s)}</div></div>`).join('')}</div>`
+    : `<p class="r-text" style="color:#94a3b8;font-style:italic">No steps provided.</p>`;
+
+  // Refs
+  const refsHtml = references
+    ? `<div class="r-refs">${references.split('\n').filter(r=>r.trim()).map((r,i)=>`<div class="r-ref"><span class="r-ref-num">[${i+1}]</span><span>${esc(r.trim())}</span></div>`).join('')}</div>`
+    : '';
+
+  secNum = 0;
+
+  document.getElementById('output').innerHTML = `
+<div class="rcard">
+  <div class="r-topbar">
+    <span class="r-topbar-label">Security Vulnerability Report</span>
+    <span class="r-topbar-meta">${rid} · ${repdate||new Date().toLocaleDateString()}</span>
+  </div>
+
+  <div class="r-header">
+    <div class="r-accent-bar" style="background:${c.bar}"></div>
+    <div class="r-header-content">
+      <div class="r-header-chips">
+        ${ss?`<span class="r-sev-chip" style="background:${ss.bg};border-color:${ss.border};color:${ss.text}">${sev.toUpperCase()}</span>`:''}
+        ${vulntype?`<span class="r-type-chip">${esc(vulntype)}</span>`:''}
+        ${cweid?`<span class="r-type-chip">${esc(cweid)}</span>`:''}
+      </div>
+      <div class="r-title">${esc(title)}</div>
+      <div class="r-meta-grid">
+        ${target?`<div class="r-meta-item"><div class="r-meta-key">Target</div><div class="r-meta-val">${esc(target)}</div></div>`:''}
+        ${cvssScore?`<div class="r-meta-item"><div class="r-meta-key">CVSS</div><div class="r-meta-val" style="color:${(CVSS_COLORS[cvssRating]||CVSS_COLORS['None']).text};font-weight:700">${esc(cvssScore)}${cvssRating?` (${esc(cvssRating)})`:''}</div></div>`:''}
+        ${repdate?`<div class="r-meta-item"><div class="r-meta-key">Date</div><div class="r-meta-val">${esc(repdate)}</div></div>`:''}
+      </div>
+    </div>
+  </div>
+
+  ${resItems.length?`<div class="r-researcher">${resItems.join('')}</div>`:''}
+
+  <div class="r-body">
+
+    ${url||params.length?`<div class="r-section">
+      <div class="r-section-label">${sec('Affected Target')}</div>
+      ${url?`<div class="r-url" style="border-left-color:${c.bar}">${esc(url)}</div>`:''}
+      ${params.length?`<div class="r-params">${params.map(p=>`<span class="r-param">${esc(p)}</span>`).join('')}</div>`:''}
+    </div>`:''}
+
+    ${cvssHtml?`<div class="r-section"><div class="r-section-label">${sec('CVSS Score')}</div>${cvssHtml}</div>`:''}
+
+    <div class="r-section">
+      <div class="r-section-label">${sec('Executive Summary')}</div>
+      <div class="r-text">${renderText(summary)}</div>
+    </div>
+
+    <div class="r-section">
+      <div class="r-section-label">${sec('Steps to Reproduce')}</div>
+      ${stepsHtml}
+    </div>
+
+    ${httpHtml?`<div class="r-section">
+      <div class="r-section-label">${sec('HTTP Request / Response')}</div>
+      ${httpHtml}
+    </div>`:''}
+
+    ${snippetsHtml?`<div class="r-section">
+      <div class="r-section-label">${sec('Code Snippets')}</div>
+      ${snippetsHtml}
+    </div>`:''}
+
+    <div class="r-section">
+      <div class="r-section-label">${sec('Impact')}</div>
+      <div class="r-impact" style="background:${c.impBg};border-color:${c.impBorder};border-left-color:${c.impLeft}">${renderText(impact)}</div>
+    </div>
+
+    ${remediation?`<div class="r-section">
+      <div class="r-section-label">${sec('Remediation')}</div>
+      <div class="r-rem" style="background:${c.remBg};border-color:${c.remBorder};border-left-color:${c.remLeft}">${renderText(remediation)}</div>
+    </div>`:''}
+
+    ${refsHtml?`<div class="r-section">
+      <div class="r-section-label">${sec('References')}</div>
+      ${refsHtml}
+    </div>`:''}
+
+  </div>
+
+  <div class="r-footer">
+    <span class="r-footer-text">Security Vulnerability Report · Confidential</span>
+    <span class="r-footer-text">${rid}</span>
+  </div>
+</div>`;
+
+  document.querySelector('.preview-side').scrollTop = 0;
+
+  // Init drag after render
+  if (dragModeActive) initDrag();
+}
+
+/* ── DRAG & DROP ── */
+let dragModeActive = false;
+let dragSrc = null;
+
+function toggleDragMode() {
+  if (!document.querySelector('.r-section')) {
+    alert('Generate a report first before reordering sections.');
+    return;
+  }
+  dragModeActive = !dragModeActive;
+  const btn = document.getElementById('drag-toggle-btn');
+  const banner = document.getElementById('drag-banner');
+  if (dragModeActive) {
+    btn.textContent = '✓ Done Reordering';
+    btn.style.cssText = 'color:#16a34a;border-color:#bbf7d0;background:#f0fdf4;display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:7px;border-width:1px;border-style:solid;font-family:Inter,sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.15s;box-shadow:0 1px 2px rgba(0,0,0,0.05)';
+    banner.classList.add('visible');
+    initDrag();
+  } else {
+    btn.textContent = '⠿ Reorder Sections';
+    btn.style.cssText = 'color:#6366f1;border-color:#c7d2fe;background:#eef2ff;display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:7px;border-width:1px;border-style:solid;font-family:Inter,sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.15s;box-shadow:0 1px 2px rgba(0,0,0,0.05)';
+    banner.classList.remove('visible');
+    removeDrag();
+  }
+}
+
+function initDrag() {
+  const body = document.querySelector('.r-body');
+  if (!body) return;
+  const sections = body.querySelectorAll('.r-section');
+
+  sections.forEach(sec => {
+    // Add handle if not present
+    if (!sec.querySelector('.drag-handle')) {
+      const handle = document.createElement('div');
+      handle.className = 'drag-handle';
+      handle.title = 'Drag to reorder';
+      handle.innerHTML = '<span></span><span></span><span></span><span></span>';
+      handle.setAttribute('draggable', false);
+      sec.appendChild(handle);
+    }
+    sec.setAttribute('draggable', 'true');
+    sec.addEventListener('dragstart', onDragStart);
+    sec.addEventListener('dragend', onDragEnd);
+    sec.addEventListener('dragover', onDragOver);
+    sec.addEventListener('dragleave', onDragLeave);
+    sec.addEventListener('drop', onDrop);
+  });
+}
+
+function removeDrag() {
+  const sections = document.querySelectorAll('.r-section');
+  sections.forEach(sec => {
+    sec.setAttribute('draggable', 'false');
+    sec.removeEventListener('dragstart', onDragStart);
+    sec.removeEventListener('dragend', onDragEnd);
+    sec.removeEventListener('dragover', onDragOver);
+    sec.removeEventListener('dragleave', onDragLeave);
+    sec.removeEventListener('drop', onDrop);
+    sec.classList.remove('dragging','drag-over-top','drag-over-bottom');
+    const h = sec.querySelector('.drag-handle');
+    if (h) h.remove();
+  });
+}
+
+function onDragStart(e) {
+  dragSrc = this;
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', '');
+}
+
+function onDragEnd(e) {
+  this.classList.remove('dragging');
+  document.querySelectorAll('.r-section').forEach(s => {
+    s.classList.remove('drag-over-top','drag-over-bottom');
+  });
+  renumberSections();
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  if (this === dragSrc) return;
+  const rect = this.getBoundingClientRect();
+  const mid = rect.top + rect.height / 2;
+  this.classList.remove('drag-over-top','drag-over-bottom');
+  if (e.clientY < mid) {
+    this.classList.add('drag-over-top');
+  } else {
+    this.classList.add('drag-over-bottom');
+  }
+}
+
+function onDragLeave(e) {
+  this.classList.remove('drag-over-top','drag-over-bottom');
+}
+
+function onDrop(e) {
+  e.preventDefault();
+  if (this === dragSrc) return;
+  const body = document.querySelector('.r-body');
+  const rect = this.getBoundingClientRect();
+  const mid = rect.top + rect.height / 2;
+
+  this.classList.remove('drag-over-top','drag-over-bottom');
+
+  if (e.clientY < mid) {
+    body.insertBefore(dragSrc, this);
+  } else {
+    body.insertBefore(dragSrc, this.nextSibling);
+  }
+  renumberSections();
+}
+
+function renumberSections() {
+  let n = 0;
+  document.querySelectorAll('.r-section .r-section-num').forEach(el => {
+    el.textContent = ++n;
+  });
+}
+</script>
+</body>
+</html>
