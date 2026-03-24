@@ -8,7 +8,6 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:#f8fafc; color:#0f172a; font-family:'Inter',sans-serif; min-height:100vh; }
-
 header {
   background:white; border-bottom:1px solid #e2e8f0;
   padding:14px 36px; display:flex; align-items:center;
@@ -26,12 +25,9 @@ header {
 .tdot { width:20px; height:20px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition:all 0.15s; }
 .tdot:hover { transform:scale(1.2); }
 .tdot.active { border-color:#0f172a; }
-
 .layout { display:grid; grid-template-columns:480px 1fr; min-height:calc(100vh - 57px); }
-
 /* ── FORM ── */
 .form-side { background:white; border-right:1px solid #e2e8f0; padding:24px 28px; overflow-y:auto; }
-
 .fsec {
   font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
   color:#94a3b8; margin:22px 0 12px; padding-bottom:8px;
@@ -39,14 +35,11 @@ header {
 }
 .fsec:first-child { margin-top:0; }
 .opt-tag { font-size:9px; font-weight:600; color:#94a3b8; background:#f1f5f9; padding:2px 7px; border-radius:4px; letter-spacing:1px; }
-
 .fg { margin-bottom:12px; }
 .fg-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
-
 label { display:block; font-size:12px; font-weight:500; color:#374151; margin-bottom:5px; }
 .hint { font-size:10px; color:#94a3b8; font-weight:400; margin-left:4px; }
 .req { color:#ef4444; }
-
 input[type="text"], input[type="email"], textarea {
   width:100%; background:#f8fafc; border:1px solid #e2e8f0;
   border-radius:7px; padding:9px 12px; color:#0f172a;
@@ -58,7 +51,6 @@ textarea { min-height:78px; line-height:1.65; }
 textarea.tall { min-height:100px; }
 textarea.mono { font-family:'JetBrains Mono',monospace; font-size:12px; min-height:110px; }
 input::placeholder, textarea::placeholder { color:#cbd5e1; }
-
 /* Severity */
 .sev-row { display:flex; gap:5px; flex-wrap:wrap; }
 .sb { flex:1; min-width:58px; padding:7px 4px; border-radius:6px; border:1px solid #e2e8f0; background:#f8fafc; color:#94a3b8; font-size:11px; font-family:'Inter',sans-serif; font-weight:500; cursor:pointer; transition:all 0.15s; text-align:center; }
@@ -68,7 +60,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 .sb.s-medium   { border-color:#eab308; background:#fefce8; color:#ca8a04; font-weight:600; }
 .sb.s-low      { border-color:#22c55e; background:#f0fdf4; color:#16a34a; font-weight:600; }
 .sb.s-info     { border-color:#3b82f6; background:#eff6ff; color:#2563eb; font-weight:600; }
-
 /* Steps */
 .steps-list { display:flex; flex-direction:column; gap:5px; }
 .sr { display:flex; align-items:center; gap:7px; }
@@ -78,16 +69,13 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 .brm:hover { color:#ef4444; }
 .badd { display:inline-flex; align-items:center; gap:5px; margin-top:6px; padding:6px 12px; border-radius:6px; border:1px dashed #cbd5e1; background:none; color:#94a3b8; font-size:12px; font-family:'Inter',sans-serif; cursor:pointer; transition:all 0.15s; }
 .badd:hover { border-color:#6366f1; color:#6366f1; background:#eef2ff; }
-
 /* HTTP section tabs */
 .http-tabs { display:flex; gap:0; margin-bottom:8px; border:1px solid #e2e8f0; border-radius:7px; overflow:hidden; }
 .http-tab { flex:1; padding:7px 10px; font-size:11px; font-weight:500; font-family:'Inter',sans-serif; cursor:pointer; border:none; background:#f8fafc; color:#94a3b8; transition:all 0.15s; text-align:center; }
 .http-tab.active { background:white; color:#0f172a; box-shadow:inset 0 -2px 0 #0f172a; }
 .http-tab:hover:not(.active) { color:#374151; }
-
 .gen-btn { width:100%; padding:12px; border-radius:8px; border:none; background:#0f172a; color:white; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s; margin-top:18px; }
 .gen-btn:hover { background:#1e293b; box-shadow:0 4px 14px rgba(15,23,42,0.25); }
-
 /* ── CUSTOM SECTIONS ── */
 .custom-section-item {
   border:1px solid #e2e8f0;
@@ -169,19 +157,16 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
   display:none;
 }
 #custom-sections-list:empty + .custom-sections-empty { display:block; }
-
 /* ── PREVIEW ── */
 .preview-side { background:#f1f5f9; padding:28px 36px; overflow-y:auto; }
 .ptop { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
 .plabel { font-size:10px; font-weight:700; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; }
 .exp-btn { display:flex; align-items:center; gap:6px; padding:7px 16px; border-radius:7px; border:1px solid #e2e8f0; background:white; color:#374151; font-family:'Inter',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all 0.15s; box-shadow:0 1px 2px rgba(0,0,0,0.05); }
 .exp-btn:hover { border-color:#6366f1; color:#6366f1; }
-
 .empty { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:400px; gap:10px; text-align:center; }
 .empty-ic { font-size:44px; opacity:0.3; }
 .empty-t { font-size:14px; color:#64748b; font-weight:500; }
 .empty-s { font-size:12px; color:#94a3b8; }
-
 /* ── SELECTION TOOLTIP ── */
 #sel-tooltip {
   position:fixed; z-index:9999; display:none;
@@ -202,14 +187,11 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 }
 #sel-tooltip button:hover { background:rgba(255,255,255,0.1); }
 #sel-tooltip .sep { height:1px; background:rgba(255,255,255,0.1); margin:2px 0; }
-
 /* ── REPORT ── */
 .rcard { background:white; border-radius:10px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04); font-family:'Inter',sans-serif; }
-
 .r-topbar { background:#0f172a; padding:10px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
 .r-topbar-label { font-size:9px; letter-spacing:3px; color:rgba(255,255,255,0.4); font-family:'JetBrains Mono',monospace; text-transform:uppercase; }
 .r-topbar-meta { font-size:9px; color:rgba(255,255,255,0.3); font-family:'JetBrains Mono',monospace; letter-spacing:1px; }
-
 .r-header { padding:22px 28px; border-bottom:1px solid #e2e8f0; display:flex; gap:0; }
 .r-accent-bar { width:4px; border-radius:2px; flex-shrink:0; margin-right:18px; align-self:stretch; min-height:70px; }
 .r-header-content { flex:1; min-width:0; }
@@ -221,33 +203,30 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 .r-meta-item { display:flex; flex-direction:column; gap:2px; }
 .r-meta-key { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#94a3b8; font-family:'JetBrains Mono',monospace; }
 .r-meta-val { font-size:12px; color:#374151; font-weight:500; }
-
 .r-researcher { margin:20px 28px 0; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px; display:flex; flex-wrap:wrap; gap:20px; background:#fafafa; }
 .r-res-item { display:flex; align-items:center; gap:8px; }
 .r-res-icon { font-size:13px; }
 .r-res-label { font-size:9px; color:#94a3b8; font-family:'JetBrains Mono',monospace; letter-spacing:1px; text-transform:uppercase; display:block; }
 .r-res-val { font-size:12px; color:#374151; font-weight:500; }
-
 .r-body { padding:22px 28px; }
 .r-section { margin-bottom:22px; }
 .r-section-label { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#64748b; margin-bottom:10px; display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; }
-.r-section-num { width:20px; height:20px; border-radius:4px; background:#0f172a; color:white; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+/* ── CHANGED: replaced numbered box with a plain square marker ── */
+.r-section-box { width:20px; height:20px; border-radius:4px; background:#0f172a; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.r-section-box::after { content:''; display:block; width:8px; height:8px; background:white; border-radius:1px; }
+/* ── END CHANGE ── */
 .r-section-label::after { content:''; flex:1; height:1px; background:#f1f5f9; }
 .r-text { font-size:13px; line-height:1.8; color:#374151; }
-
 .r-url { background:#f8fafc; border:1px solid #e2e8f0; border-left:3px solid #0f172a; border-radius:6px; padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:12px; color:#374151; word-break:break-all; }
 .r-params { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
 .r-param { padding:4px 10px; border-radius:5px; background:#f1f5f9; border:1px solid #e2e8f0; font-size:11px; font-family:'JetBrains Mono',monospace; color:#374151; }
-
 .r-cvss { display:inline-flex; align-items:center; gap:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:7px; padding:10px 16px; flex-wrap:wrap; }
 .r-cvss-score { font-size:22px; font-weight:700; font-family:'JetBrains Mono',monospace; }
 .r-cvss-rating { font-size:10px; font-weight:700; padding:3px 10px; border-radius:4px; font-family:'JetBrains Mono',monospace; }
 .r-cvss-vector { font-size:10px; color:#94a3b8; font-family:'JetBrains Mono',monospace; word-break:break-all; }
-
 .r-steps { display:flex; flex-direction:column; gap:6px; }
 .r-step { display:flex; align-items:flex-start; gap:10px; padding:9px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; font-size:13px; color:#374151; line-height:1.6; }
 .r-step-num { min-width:20px; height:20px; background:#0f172a; color:white; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; flex-shrink:0; margin-top:1px; }
-
 /* Code block */
 .r-code-block {
   background:#0f172a;
@@ -266,7 +245,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 .r-code-label { font-size:9px; font-family:'JetBrains Mono',monospace; color:#475569; letter-spacing:1px; }
 .r-code-body { padding:14px; overflow-x:auto; }
 .r-code-body pre { font-family:'JetBrains Mono',monospace; font-size:12px; color:#e2e8f0; line-height:1.7; white-space:pre-wrap; word-break:break-all; }
-
 /* HTTP blocks */
 .r-http-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .r-http-block { border-radius:8px; overflow:hidden; border:1px solid #e2e8f0; }
@@ -274,21 +252,16 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 .r-http-head-label { font-size:10px; font-weight:700; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
 .r-http-body { background:#0f172a; padding:14px; overflow-x:auto; }
 .r-http-body pre { font-family:'JetBrains Mono',monospace; font-size:11px; color:#e2e8f0; line-height:1.7; white-space:pre-wrap; word-break:break-all; }
-
 .r-impact { border-radius:7px; padding:14px 16px; font-size:13px; color:#374151; line-height:1.8; border:1px solid; border-left:3px solid; }
 .r-rem { border-radius:7px; padding:14px 16px; font-size:13px; color:#374151; line-height:1.8; border:1px solid; border-left:3px solid; }
-
 .r-refs { display:flex; flex-direction:column; gap:5px; }
 .r-ref { font-size:12px; font-family:'JetBrains Mono',monospace; word-break:break-all; display:flex; align-items:flex-start; gap:8px; padding:7px 0; border-bottom:1px solid #f1f5f9; }
 .r-ref:last-child { border-bottom:none; }
 .r-ref-num { font-size:9px; font-weight:700; color:#94a3b8; font-family:'JetBrains Mono',monospace; flex-shrink:0; padding-top:2px; }
-
 .r-footer { background:#0f172a; padding:12px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
 .r-footer-text { font-size:10px; color:rgba(255,255,255,0.3); font-family:'JetBrains Mono',monospace; letter-spacing:1px; }
-
 /* Snippets in report body */
 .r-inline-code { display:inline-block; background:#0f172a; color:#e2e8f0; font-family:'JetBrains Mono',monospace; font-size:12px; padding:2px 8px; border-radius:4px; }
-
 /* Custom section in report — subtle tinted block */
 .r-custom-section-body {
   background:#f8fafc;
@@ -299,7 +272,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
   color:#374151;
   line-height:1.8;
 }
-
 /* ── DRAG & DROP ── */
 .r-section {
   position:relative;
@@ -346,7 +318,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 }
 .r-section:hover .drag-handle { opacity:1; }
 .drag-handle:hover { background:#f1f5f9; opacity:1 !important; }
-
 /* Drag hint tooltip */
 .drag-hint {
   position:absolute;
@@ -365,7 +336,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
   letter-spacing:1px;
 }
 .r-section:hover .drag-hint { opacity:0; }
-
 /* Preview drag mode banner */
 .drag-mode-banner {
   display:none;
@@ -382,7 +352,37 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 }
 .drag-mode-banner.visible { display:flex; }
 .drag-mode-banner span { font-size:14px; }
-
+/* Clear form button */
+.clear-btn {
+  width:100%; padding:10px; border-radius:8px; border:1px solid #e2e8f0;
+  background:white; color:#94a3b8; font-family:'Inter',sans-serif;
+  font-size:12px; font-weight:500; cursor:pointer; transition:all 0.2s;
+  margin-top:8px;
+}
+.clear-btn:hover { border-color:#ef4444; color:#ef4444; background:#fef2f2; }
+/* Auto-save indicator */
+.autosave-dot {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:10px; color:#94a3b8; font-family:'JetBrains Mono',monospace;
+}
+.autosave-dot::before {
+  content:''; width:6px; height:6px; border-radius:50%;
+  background:#22c55e; display:inline-block;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { opacity:1; } 50% { opacity:0.3; }
+}
+/* Copy markdown button */
+.copy-md-btn {
+  display:flex; align-items:center; gap:6px; padding:7px 16px;
+  border-radius:7px; border:1px solid #e2e8f0; background:white;
+  color:#374151; font-family:'Inter',sans-serif; font-size:12px;
+  font-weight:500; cursor:pointer; transition:all 0.15s;
+  box-shadow:0 1px 2px rgba(0,0,0,0.05);
+}
+.copy-md-btn:hover { border-color:#6366f1; color:#6366f1; }
+.copy-md-btn.copied { border-color:#22c55e; color:#16a34a; background:#f0fdf4; }
 @media (max-width:900px) {
   .layout { grid-template-columns:1fr; }
   .form-side { border-right:none; border-bottom:1px solid #e2e8f0; padding:18px 16px; }
@@ -390,8 +390,15 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
   .fg-row { grid-template-columns:1fr; }
   header { padding:12px 16px; }
   .r-http-grid { grid-template-columns:1fr; }
+  /* Fix #7: mobile card overflow */
+  .rcard { overflow-x:hidden; }
+  .r-body { padding:16px; }
+  .r-header { padding:16px; }
+  .r-topbar, .r-footer { padding:10px 16px; }
+  .r-researcher { margin:14px 16px 0; }
+  .r-http-grid { grid-template-columns:1fr; }
+  .ptop { flex-direction:column; align-items:flex-start; gap:8px; }
 }
-
 /* ── PRINT / PDF PAGE BREAK FIXES ── */
 @media print {
   header,.form-side,.ptop,#sel-tooltip,.drag-mode-banner { display:none !important; }
@@ -400,7 +407,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
   .preview-side { padding:0; background:white; }
   .rcard { box-shadow:none; border-radius:0; }
   *{ -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; }
-
   .rcard { overflow:visible !important; }
   .r-topbar,
   .r-header,
@@ -423,7 +429,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 </style>
 </head>
 <body>
-
 <!-- Selection Tooltip -->
 <div id="sel-tooltip">
   <button onclick="wrapSnippet('code')">💻 Inline Code</button>
@@ -433,7 +438,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
   <div class="sep"></div>
   <button onclick="wrapSnippet('bold')">𝐁 Bold text</button>
 </div>
-
 <header>
   <div class="h-left">
     <div class="h-icon">📄</div>
@@ -443,6 +447,7 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
     </div>
   </div>
   <div class="h-right">
+    <span class="autosave-dot" id="autosave-label" style="display:none">Saved</span>
     <span>Accent:</span>
     <div class="t-dots">
       <div class="tdot active" style="background:#dc2626" title="Red" onclick="setColor('red',this)"></div>
@@ -454,12 +459,9 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
     </div>
   </div>
 </header>
-
 <div class="layout">
-
   <!-- ── FORM ── -->
   <div class="form-side">
-
     <div class="fsec">Researcher Info <span class="opt-tag">optional</span></div>
     <div class="fg">
       <label>Full Name / Handle</label>
@@ -473,13 +475,11 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
       <label>GitHub</label>
       <input type="text" id="github" placeholder="github.com/username" />
     </div>
-
     <div class="fsec">Report Info</div>
     <div class="fg-row">
       <div><label>Target / Program</label><input type="text" id="target" placeholder="target.com / Program" /></div>
       <div><label>Report Date</label><input type="text" id="repdate" /></div>
     </div>
-
     <div class="fsec">Vulnerability Details</div>
     <div class="fg">
       <label>Title <span class="req">*</span></label>
@@ -507,7 +507,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
       <label>Affected Parameter <span class="hint">optional — comma separated</span></label>
       <input type="text" id="param" placeholder="e.g. user_id, redirect, file" />
     </div>
-
     <div class="fsec">CVSS Score <span class="opt-tag">optional</span></div>
     <div class="fg-row">
       <div><label>Score <span class="hint">0.0–10.0</span></label><input type="text" id="cvss-score" placeholder="e.g. 8.1" oninput="calcCvss()" /></div>
@@ -517,13 +516,11 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
       <label>CVSS Vector</label>
       <input type="text" id="cvss-vector" placeholder="CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N" />
     </div>
-
     <div class="fsec">Report Content</div>
     <div class="fg">
       <label>Summary <span class="req">*</span> <span class="hint">— select text for formatting options</span></label>
       <textarea id="summary" class="tall" placeholder="Describe the vulnerability..."></textarea>
     </div>
-
     <div class="fg">
       <label>Steps to Reproduce <span class="req">*</span></label>
       <div class="steps-list" id="steps-list">
@@ -533,12 +530,10 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
       </div>
       <button class="badd" onclick="addStep()">+ Add Step</button>
     </div>
-
     <div class="fg">
       <label>Impact <span class="req">*</span> <span class="hint">— select text for formatting options</span></label>
       <textarea id="impact" class="tall" placeholder="What can an attacker achieve?"></textarea>
     </div>
-
     <!-- HTTP Request / Response -->
     <div class="fsec">HTTP Request / Response <span class="opt-tag">optional</span></div>
     <div class="fg">
@@ -549,15 +544,13 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
       <label>HTTP Response <span class="hint">— paste raw Burp Suite response</span></label>
       <textarea id="http-res" class="mono" placeholder="HTTP/1.1 200 OK&#10;Content-Type: application/json&#10;&#10;{&quot;success&quot;: true, &quot;role&quot;: &quot;admin&quot;, &quot;message&quot;: &quot;Role updated&quot;}"></textarea>
     </div>
-
     <!-- Code Snippets -->
     <div class="fsec">Code Snippets <span class="opt-tag">optional</span></div>
     <div id="snippets-container">
       <!-- snippets added dynamically -->
     </div>
     <button class="badd" onclick="addSnippet()">+ Add Code Snippet</button>
-
-    <div class="fsec">Remediation & References</div>
+    <div class="fsec">Remediation &amp; References</div>
     <div class="fg">
       <label>Remediation <span class="hint">optional</span></label>
       <textarea id="remediation" placeholder="Recommended fix or mitigation steps..."></textarea>
@@ -566,22 +559,21 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
       <label>References <span class="hint">optional — one per line</span></label>
       <textarea id="references" placeholder="https://owasp.org/...&#10;https://portswigger.net/...&#10;CVE-XXXX-XXXXX"></textarea>
     </div>
-
     <!-- ── CUSTOM SECTIONS ── -->
     <div class="fsec">Custom Sections <span class="opt-tag">optional</span></div>
     <div style="font-size:11px;color:#94a3b8;margin-bottom:10px;line-height:1.5;">Add extra sections with a custom title and description. They will appear after Remediation in the report.</div>
     <div id="custom-sections-list"></div>
     <p class="custom-sections-empty">No custom sections yet. Click below to add one.</p>
     <button class="badd" onclick="addCustomSection()" style="width:100%;justify-content:center;">+ Add Custom Section</button>
-
     <button class="gen-btn" onclick="generate()">Generate Report →</button>
+    <button class="clear-btn" onclick="clearForm()">🗑 Clear Form</button>
   </div>
-
   <!-- ── PREVIEW ── -->
   <div class="preview-side">
     <div class="ptop">
       <div class="plabel">Preview</div>
       <div style="display:flex;gap:8px;align-items:center">
+        <button class="exp-btn copy-md-btn" id="copy-md-btn" onclick="copyAsMarkdown()">📋 Copy as Markdown</button>
         <button class="exp-btn" id="drag-toggle-btn" onclick="toggleDragMode()" style="color:#6366f1;border-color:#c7d2fe;background:#eef2ff">⠿ Reorder Sections</button>
         <button class="exp-btn" onclick="window.print()">🖨️ Export as PDF</button>
       </div>
@@ -599,7 +591,6 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
     </div>
   </div>
 </div>
-
 <script>
 /* ── STATE ── */
 let sev = '';
@@ -608,9 +599,9 @@ let snippetCount = 0;
 let customSectionCount = 0;
 let activeTextarea = null;
 let selStart = 0, selEnd = 0;
-
+let lockedReportId = null;
+let autosaveTimer = null;
 document.getElementById('repdate').value = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-
 /* ── COLORS ── */
 const COLORS = {
   red:    { bar:'#dc2626', chipBg:'#fef2f2', chipBorder:'#fecaca', chipText:'#dc2626', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
@@ -620,7 +611,6 @@ const COLORS = {
   teal:   { bar:'#0891b2', chipBg:'#ecfeff', chipBorder:'#a5f3fc', chipText:'#0e7490', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
   Ash:    { bar:'#595e69', chipBg:'#f1f5f9', chipBorder:'#cbd5e1', chipText:'#475569', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
 };
-
 const SEV_STYLES = {
   Critical:{ bg:'#fef2f2', border:'#fecaca', text:'#dc2626' },
   High:    { bg:'#fff7ed', border:'#fed7aa', text:'#ea580c' },
@@ -628,7 +618,6 @@ const SEV_STYLES = {
   Low:     { bg:'#f0fdf4', border:'#bbf7d0', text:'#16a34a' },
   Info:    { bg:'#eff6ff', border:'#bfdbfe', text:'#2563eb' },
 };
-
 const CVSS_COLORS = {
   Critical:{ bg:'#fef2f2', text:'#dc2626' },
   High:    { bg:'#fff7ed', text:'#ea580c' },
@@ -636,31 +625,34 @@ const CVSS_COLORS = {
   Low:     { bg:'#f0fdf4', text:'#16a34a' },
   None:    { bg:'#f1f5f9', text:'#64748b' },
 };
-
 function setColor(name, dot) {
   accentColor = name;
   document.querySelectorAll('.tdot').forEach(d=>d.classList.remove('active'));
   dot.classList.add('active');
   if (document.querySelector('.rcard')) generate();
 }
-
 function setSev(val, btn) {
   sev = val;
   document.querySelectorAll('.sb').forEach(b=>b.className='sb');
   btn.classList.add('s-'+val.toLowerCase());
 }
-
 function calcCvss() {
-  const score = parseFloat(document.getElementById('cvss-score').value);
+  const raw = document.getElementById('cvss-score').value;
   const el = document.getElementById('cvss-rating');
-  if (isNaN(score)) { el.value=''; return; }
+  const score = parseFloat(raw);
+  if (raw === '' || isNaN(score)) { el.value=''; return; }
+  if (score < 0 || score > 10) {
+    el.value='Invalid';
+    document.getElementById('cvss-score').style.borderColor='#ef4444';
+    return;
+  }
+  document.getElementById('cvss-score').style.borderColor='';
   if (score===0) el.value='None';
   else if (score<=3.9) el.value='Low';
   else if (score<=6.9) el.value='Medium';
   else if (score<=8.9) el.value='High';
   else el.value='Critical';
 }
-
 function addStep() {
   const list = document.getElementById('steps-list');
   const n = list.children.length+1;
@@ -669,18 +661,15 @@ function addStep() {
   row.innerHTML=`<div class="sn">${n}</div><input type="text" placeholder="Step ${n}..." /><button class="brm" onclick="rmStep(this)">×</button>`;
   list.appendChild(row);
 }
-
 function rmStep(btn) {
   const list=document.getElementById('steps-list');
   if (list.children.length<=1) return;
   btn.parentElement.remove();
   Array.from(list.children).forEach((r,i)=>r.querySelector('.sn').textContent=i+1);
 }
-
 function getSteps() {
   return Array.from(document.querySelectorAll('#steps-list input')).map(i=>i.value.trim()).filter(Boolean);
 }
-
 /* ── CUSTOM SECTIONS ── */
 function addCustomSection(title='', description='') {
   customSectionCount++;
@@ -700,7 +689,6 @@ function addCustomSection(title='', description='') {
   `;
   document.getElementById('custom-sections-list').appendChild(wrap);
 }
-
 function getCustomSections() {
   const results = [];
   document.querySelectorAll('#custom-sections-list .custom-section-item').forEach(wrap => {
@@ -710,7 +698,6 @@ function getCustomSections() {
   });
   return results;
 }
-
 /* ── CODE SNIPPETS ── */
 function addSnippet(lang='', code='') {
   snippetCount++;
@@ -737,7 +724,6 @@ function addSnippet(lang='', code='') {
   `;
   document.getElementById('snippets-container').appendChild(wrap);
 }
-
 function getSnippets() {
   const results = [];
   document.querySelectorAll('#snippets-container > div').forEach(wrap => {
@@ -747,10 +733,8 @@ function getSnippets() {
   });
   return results;
 }
-
 /* ── SELECTION TOOLTIP ── */
 const tooltip = document.getElementById('sel-tooltip');
-
 document.addEventListener('mouseup', function(e) {
   if (e.target.closest('#sel-tooltip')) return;
   const ta = e.target.closest('textarea');
@@ -774,20 +758,16 @@ document.addEventListener('mouseup', function(e) {
   tooltip.style.display = 'none';
   activeTextarea = null;
 });
-
 document.addEventListener('mousedown', function(e) {
   if (!e.target.closest('#sel-tooltip')) {
     tooltip.style.display = 'none';
   }
 });
-
 function wrapSnippet(type) {
   tooltip.style.display = 'none';
   if (!activeTextarea) return;
-
   const val = activeTextarea.value;
   const selected = val.slice(selStart, selEnd);
-
   let wrapped = '';
   if (type === 'code') {
     wrapped = '`' + selected + '`';
@@ -803,16 +783,13 @@ function wrapSnippet(type) {
     addSnippet('payload', selected);
     wrapped = '[→ See Payload below]';
   }
-
   activeTextarea.value = val.slice(0,selStart) + wrapped + val.slice(selEnd);
   activeTextarea = null;
 }
-
 /* ── HELPERS ── */
 function esc(s) {
   return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
-
 function renderText(s) {
   return s
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
@@ -820,9 +797,7 @@ function renderText(s) {
     .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
     .replace(/\n/g,'<br>');
 }
-
 function sevDot(s) { return {Critical:'🔴',High:'🟠',Medium:'🟡',Low:'🟢',Info:'🔵'}[s]||''; }
-
 const LANG_LABELS = {
   'http-request':'HTTP Request','http-response':'HTTP Response',
   'payload':'Payload','bash':'Bash / Command',
@@ -830,13 +805,237 @@ const LANG_LABELS = {
   'json':'JSON','xml':'XML','code':'Code',
 };
 
+/* ── SECTION BOX HELPER (replaces numbered sec()) ── */
+// Returns a plain dark square marker — no counter, no numbering bugs.
+function secBox(label) {
+  return `<div class="r-section-box"></div>${label}`;
+}
+
+/* ── AUTOSAVE ── */
+const SAVE_KEY = 'brg_autosave';
+function collectFormData() {
+  const steps = Array.from(document.querySelectorAll('#steps-list input')).map(i=>i.value);
+  const snippets = [];
+  document.querySelectorAll('#snippets-container > div').forEach(wrap => {
+    snippets.push({ lang: wrap.querySelector('select').value, code: wrap.querySelector('textarea').value });
+  });
+  const customSecs = [];
+  document.querySelectorAll('#custom-sections-list .custom-section-item').forEach(wrap => {
+    customSecs.push({
+      title: wrap.querySelector('.custom-section-header input').value,
+      desc:  wrap.querySelector('.custom-section-body textarea').value
+    });
+  });
+  return {
+    researcher: document.getElementById('researcher').value,
+    email:      document.getElementById('email').value,
+    linkedin:   document.getElementById('linkedin').value,
+    github:     document.getElementById('github').value,
+    target:     document.getElementById('target').value,
+    repdate:    document.getElementById('repdate').value,
+    title:      document.getElementById('title').value,
+    sev, accentColor,
+    vulntype:   document.getElementById('vulntype').value,
+    cweid:      document.getElementById('cweid').value,
+    url:        document.getElementById('url').value,
+    param:      document.getElementById('param').value,
+    cvssScore:  document.getElementById('cvss-score').value,
+    cvssRating: document.getElementById('cvss-rating').value,
+    cvssVector: document.getElementById('cvss-vector').value,
+    summary:    document.getElementById('summary').value,
+    steps,
+    impact:     document.getElementById('impact').value,
+    httpReq:    document.getElementById('http-req').value,
+    httpRes:    document.getElementById('http-res').value,
+    remediation:document.getElementById('remediation').value,
+    references: document.getElementById('references').value,
+    snippets, customSecs,
+    lockedReportId
+  };
+}
+function saveForm() {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(collectFormData()));
+    const lbl = document.getElementById('autosave-label');
+    lbl.style.display = 'inline-flex';
+  } catch(e) {}
+}
+function scheduleAutosave() {
+  clearTimeout(autosaveTimer);
+  autosaveTimer = setTimeout(saveForm, 800);
+}
+function restoreForm() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    const set = (id, val) => { const el=document.getElementById(id); if(el && val!==undefined) el.value=val; };
+    set('researcher', d.researcher); set('email', d.email);
+    set('linkedin', d.linkedin);    set('github', d.github);
+    set('target', d.target);        set('repdate', d.repdate);
+    set('title', d.title);          set('vulntype', d.vulntype);
+    set('cweid', d.cweid);          set('url', d.url);
+    set('param', d.param);
+    set('cvss-score', d.cvssScore); set('cvss-rating', d.cvssRating);
+    set('cvss-vector', d.cvssVector);
+    set('summary', d.summary);      set('impact', d.impact);
+    set('http-req', d.httpReq);     set('http-res', d.httpRes);
+    set('remediation', d.remediation); set('references', d.references);
+    if (d.sev) {
+      sev = d.sev;
+      document.querySelectorAll('.sb').forEach(b=>{
+        if (b.textContent.toLowerCase().includes(d.sev.toLowerCase())) {
+          b.classList.add('s-'+d.sev.toLowerCase());
+        }
+      });
+    }
+    if (d.accentColor) {
+      accentColor = d.accentColor;
+      document.querySelectorAll('.tdot').forEach(dot => {
+        if (dot.title.toLowerCase() === d.accentColor.toLowerCase()) {
+          document.querySelectorAll('.tdot').forEach(t=>t.classList.remove('active'));
+          dot.classList.add('active');
+        }
+      });
+    }
+    if (d.steps && d.steps.length) {
+      const list = document.getElementById('steps-list');
+      list.innerHTML = '';
+      d.steps.forEach((s,i)=>{
+        const row = document.createElement('div');
+        row.className='sr';
+        row.innerHTML=`<div class="sn">${i+1}</div><input type="text" placeholder="Step ${i+1}..." value="${esc(s)}" /><button class="brm" onclick="rmStep(this)">×</button>`;
+        list.appendChild(row);
+      });
+    }
+    if (d.snippets) d.snippets.forEach(s => addSnippet(s.lang, s.code));
+    if (d.customSecs) d.customSecs.forEach(s => addCustomSection(s.title, s.desc));
+    if (d.lockedReportId) lockedReportId = d.lockedReportId;
+    document.getElementById('autosave-label').style.display = 'inline-flex';
+  } catch(e) {}
+}
+/* ── CLEAR FORM ── */
+function clearForm() {
+  if (!confirm('Clear all form data? This cannot be undone.')) return;
+  ['researcher','email','linkedin','github','target','title','vulntype','cweid',
+   'url','param','cvss-score','cvss-rating','cvss-vector','summary','impact',
+   'http-req','http-res','remediation','references'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('repdate').value = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const list = document.getElementById('steps-list');
+  list.innerHTML = '';
+  ['First step...','Second step...','Third step...'].forEach((ph,i)=>{
+    const row = document.createElement('div');
+    row.className='sr';
+    row.innerHTML=`<div class="sn">${i+1}</div><input type="text" placeholder="${ph}" /><button class="brm" onclick="rmStep(this)">×</button>`;
+    list.appendChild(row);
+  });
+  document.getElementById('snippets-container').innerHTML = '';
+  document.getElementById('custom-sections-list').innerHTML = '';
+  sev = '';
+  document.querySelectorAll('.sb').forEach(b=>b.className='sb');
+  lockedReportId = null;
+  document.getElementById('output').innerHTML = `
+    <div class="empty">
+      <div class="empty-ic">📋</div>
+      <div class="empty-t">Your report will appear here</div>
+      <div class="empty-s">Fill in the details and click Generate Report</div>
+    </div>`;
+  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+  document.getElementById('autosave-label').style.display = 'none';
+}
+/* ── COPY AS MARKDOWN ── */
+function copyAsMarkdown() {
+  const title  = document.getElementById('title').value.trim();
+  if (!title) { alert('Generate a report first.'); return; }
+  const researcher = document.getElementById('researcher').value.trim();
+  const email      = document.getElementById('email').value.trim();
+  const target     = document.getElementById('target').value.trim();
+  const repdate    = document.getElementById('repdate').value.trim();
+  const vulntype   = document.getElementById('vulntype').value.trim();
+  const cweid      = document.getElementById('cweid').value.trim();
+  const url        = document.getElementById('url').value.trim();
+  const param      = document.getElementById('param').value.trim();
+  const cvssScore  = document.getElementById('cvss-score').value.trim();
+  const cvssRating = document.getElementById('cvss-rating').value.trim();
+  const cvssVector = document.getElementById('cvss-vector').value.trim();
+  const summary    = document.getElementById('summary').value.trim();
+  const impact     = document.getElementById('impact').value.trim();
+  const httpReq    = document.getElementById('http-req').value.trim();
+  const httpRes    = document.getElementById('http-res').value.trim();
+  const remediation= document.getElementById('remediation').value.trim();
+  const references = document.getElementById('references').value.trim();
+  const steps      = getSteps();
+  const snippets   = getSnippets();
+  const customSecs = getCustomSections();
+  const rid = lockedReportId || 'VR-DRAFT';
+  let md = '';
+  md += `# ${title}\n\n`;
+  md += `**Report ID:** ${rid}  \n`;
+  if (sev)      md += `**Severity:** ${sev}  \n`;
+  if (vulntype) md += `**Type:** ${vulntype}  \n`;
+  if (cweid)    md += `**CWE:** ${cweid}  \n`;
+  if (target)   md += `**Target:** ${target}  \n`;
+  if (repdate)  md += `**Date:** ${repdate}  \n`;
+  if (cvssScore)md += `**CVSS Score:** ${cvssScore}${cvssRating?' ('+cvssRating+')':''}  \n`;
+  if (cvssVector)md+=`**CVSS Vector:** \`${cvssVector}\`  \n`;
+  if (researcher||email) {
+    md += `\n---\n**Researcher:** ${researcher}${email?' | '+email:''}\n`;
+  }
+  if (url) {
+    md += `\n---\n## Affected Endpoint\n\n\`${url}\`\n`;
+    if (param) md += `\n**Parameters:** ${param}\n`;
+  }
+  if (cvssScore) {
+    md += `\n---\n## CVSS Score\n\n**${cvssScore}** ${cvssRating} ${cvssVector?'— `'+cvssVector+'`':''}\n`;
+  }
+  md += `\n---\n## Summary\n\n${summary}\n`;
+  if (steps.length) {
+    md += `\n---\n## Steps to Reproduce\n\n`;
+    steps.forEach((s,i) => { md += `${i+1}. ${s}\n`; });
+  }
+  if (httpReq||httpRes) {
+    md += `\n---\n## HTTP Request / Response\n\n`;
+    if (httpReq) md += `**Request:**\n\`\`\`http\n${httpReq}\n\`\`\`\n\n`;
+    if (httpRes) md += `**Response:**\n\`\`\`http\n${httpRes}\n\`\`\`\n`;
+  }
+  if (snippets.length) {
+    md += `\n---\n## Code Snippets\n\n`;
+    snippets.forEach(s => {
+      md += `\`\`\`${s.lang}\n${s.code}\n\`\`\`\n\n`;
+    });
+  }
+  md += `\n---\n## Impact\n\n${impact}\n`;
+  if (remediation) md += `\n---\n## Remediation\n\n${remediation}\n`;
+  customSecs.forEach(cs => {
+    md += `\n---\n## ${cs.title}\n\n${cs.desc||''}\n`;
+  });
+  if (references) {
+    md += `\n---\n## References\n\n`;
+    references.split('\n').filter(r=>r.trim()).forEach((r,i)=>{
+      md += `[${i+1}] ${r.trim()}\n`;
+    });
+  }
+  navigator.clipboard.writeText(md).then(() => {
+    const btn = document.getElementById('copy-md-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 Copy as Markdown';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    alert('Copy failed. Please copy manually.');
+  });
+}
 /* ── GENERATE ── */
 function generate() {
   const title = document.getElementById('title').value.trim();
   const summary = document.getElementById('summary').value.trim();
   const impact = document.getElementById('impact').value.trim();
   if (!title||!summary||!impact) { alert('Please fill in: Title, Summary, and Impact'); return; }
-
   const researcher = document.getElementById('researcher').value.trim();
   const email      = document.getElementById('email').value.trim();
   const linkedin   = document.getElementById('linkedin').value.trim();
@@ -857,22 +1056,20 @@ function generate() {
   const steps = getSteps();
   const snippets = getSnippets();
   const customSections = getCustomSections();
-
+  if (!steps.length) {
+    if (!confirm('No steps to reproduce were provided. Continue generating anyway?')) return;
+  }
   const c = COLORS[accentColor] || COLORS['red'];
   const ss = sev ? SEV_STYLES[sev] : null;
-  const rid = 'VR-' + Date.now().toString(36).toUpperCase().slice(-6);
+  if (!lockedReportId) lockedReportId = 'VR-' + Date.now().toString(36).toUpperCase().slice(-6);
+  const rid = lockedReportId;
   const params = param ? param.split(',').map(p=>p.trim()).filter(Boolean) : [];
-
-  let secNum = 0;
-  const sec = (label) => `<div class="r-section-num">${++secNum}</div>${label}`;
-
   // Researcher
   const resItems = [];
   if (researcher) resItems.push(`<div class="r-res-item"><span class="r-res-icon">👤</span><div><span class="r-res-label">Researcher</span><span class="r-res-val">${esc(researcher)}</span></div></div>`);
   if (email)      resItems.push(`<div class="r-res-item"><span class="r-res-icon">✉️</span><div><span class="r-res-label">Email</span><span class="r-res-val">${esc(email)}</span></div></div>`);
   if (linkedin)   resItems.push(`<div class="r-res-item"><span class="r-res-icon">💼</span><div><span class="r-res-label">LinkedIn</span><span class="r-res-val">${esc(linkedin)}</span></div></div>`);
   if (github)     resItems.push(`<div class="r-res-item"><span class="r-res-icon">🐙</span><div><span class="r-res-label">GitHub</span><span class="r-res-val">${esc(github)}</span></div></div>`);
-
   // CVSS
   let cvssHtml = '';
   if (cvssScore) {
@@ -883,7 +1080,6 @@ function generate() {
       ${cvssVector?`<div class="r-cvss-vector">${esc(cvssVector)}</div>`:''}
     </div>`;
   }
-
   // HTTP blocks
   let httpHtml = '';
   if (httpReq || httpRes) {
@@ -904,7 +1100,6 @@ function generate() {
       </div>`:''}
     </div>`;
   }
-
   // Code snippets
   const snippetsHtml = snippets.map(s => {
     const label = LANG_LABELS[s.lang]||s.lang;
@@ -919,34 +1114,27 @@ function generate() {
       <div class="r-code-body"><pre>${esc(s.code)}</pre></div>
     </div>`;
   }).join('');
-
   // Steps
   const stepsHtml = steps.length
     ? `<div class="r-steps">${steps.map((s,i)=>`<div class="r-step"><div class="r-step-num">${i+1}</div><div>${renderText(s)}</div></div>`).join('')}</div>`
     : `<p class="r-text" style="color:#94a3b8;font-style:italic">No steps provided.</p>`;
-
   // Refs
   const refsHtml = references
     ? `<div class="r-refs">${references.split('\n').filter(r=>r.trim()).map((r,i)=>`<div class="r-ref"><span class="r-ref-num">[${i+1}]</span><span>${esc(r.trim())}</span></div>`).join('')}</div>`
     : '';
-
-  // Custom sections
+  // Custom sections HTML — uses secBox(), no counter involved
   const customSectionsHtml = customSections.map(cs => `
     <div class="r-section">
-      <div class="r-section-label">${sec(esc(cs.title))}</div>
+      <div class="r-section-label">${secBox(esc(cs.title))}</div>
       <div class="r-custom-section-body">${cs.desc ? renderText(cs.desc) : '<span style="color:#94a3b8;font-style:italic">No content provided.</span>'}</div>
     </div>
   `).join('');
-
-  secNum = 0;
-
   document.getElementById('output').innerHTML = `
 <div class="rcard">
   <div class="r-topbar">
     <span class="r-topbar-label">Security Vulnerability Report</span>
     <span class="r-topbar-meta">${rid} · ${repdate||new Date().toLocaleDateString()}</span>
   </div>
-
   <div class="r-header">
     <div class="r-accent-bar" style="background:${c.bar}"></div>
     <div class="r-header-content">
@@ -963,74 +1151,56 @@ function generate() {
       </div>
     </div>
   </div>
-
   ${resItems.length?`<div class="r-researcher">${resItems.join('')}</div>`:''}
-
   <div class="r-body">
-
     ${url||params.length?`<div class="r-section">
-      <div class="r-section-label">${sec('Affected Target')}</div>
+      <div class="r-section-label">${secBox('Affected Target')}</div>
       ${url?`<div class="r-url" style="border-left-color:${c.bar}">${esc(url)}</div>`:''}
       ${params.length?`<div class="r-params">${params.map(p=>`<span class="r-param">${esc(p)}</span>`).join('')}</div>`:''}
     </div>`:''}
-
-    ${cvssHtml?`<div class="r-section"><div class="r-section-label">${sec('CVSS Score')}</div>${cvssHtml}</div>`:''}
-
+    ${cvssHtml?`<div class="r-section"><div class="r-section-label">${secBox('CVSS Score')}</div>${cvssHtml}</div>`:''}
     <div class="r-section">
-      <div class="r-section-label">${sec('Executive Summary')}</div>
+      <div class="r-section-label">${secBox('Executive Summary')}</div>
       <div class="r-text">${renderText(summary)}</div>
     </div>
-
     <div class="r-section">
-      <div class="r-section-label">${sec('Steps to Reproduce')}</div>
+      <div class="r-section-label">${secBox('Steps to Reproduce')}</div>
       ${stepsHtml}
     </div>
-
     ${httpHtml?`<div class="r-section">
-      <div class="r-section-label">${sec('HTTP Request / Response')}</div>
+      <div class="r-section-label">${secBox('HTTP Request / Response')}</div>
       ${httpHtml}
     </div>`:''}
-
     ${snippetsHtml?`<div class="r-section">
-      <div class="r-section-label">${sec('Code Snippets')}</div>
+      <div class="r-section-label">${secBox('Code Snippets')}</div>
       ${snippetsHtml}
     </div>`:''}
-
     <div class="r-section">
-      <div class="r-section-label">${sec('Impact')}</div>
+      <div class="r-section-label">${secBox('Impact')}</div>
       <div class="r-impact" style="background:${c.impBg};border-color:${c.impBorder};border-left-color:${c.impLeft}">${renderText(impact)}</div>
     </div>
-
     ${remediation?`<div class="r-section">
-      <div class="r-section-label">${sec('Remediation')}</div>
+      <div class="r-section-label">${secBox('Remediation')}</div>
       <div class="r-rem" style="background:${c.remBg};border-color:${c.remBorder};border-left-color:${c.remLeft}">${renderText(remediation)}</div>
     </div>`:''}
-
     ${customSectionsHtml}
-
     ${refsHtml?`<div class="r-section">
-      <div class="r-section-label">${sec('References')}</div>
+      <div class="r-section-label">${secBox('References')}</div>
       ${refsHtml}
     </div>`:''}
-
   </div>
-
   <div class="r-footer">
     <span class="r-footer-text">Security Vulnerability Report · Confidential</span>
     <span class="r-footer-text">${rid}</span>
   </div>
 </div>`;
-
   document.querySelector('.preview-side').scrollTop = 0;
-
-  // Init drag after render
+  saveForm();
   if (dragModeActive) initDrag();
 }
-
 /* ── DRAG & DROP ── */
 let dragModeActive = false;
 let dragSrc = null;
-
 function toggleDragMode() {
   if (!document.querySelector('.r-section')) {
     alert('Generate a report first before reordering sections.');
@@ -1051,12 +1221,10 @@ function toggleDragMode() {
     removeDrag();
   }
 }
-
 function initDrag() {
   const body = document.querySelector('.r-body');
   if (!body) return;
   const sections = body.querySelectorAll('.r-section');
-
   sections.forEach(sec => {
     if (!sec.querySelector('.drag-handle')) {
       const handle = document.createElement('div');
@@ -1074,7 +1242,6 @@ function initDrag() {
     sec.addEventListener('drop', onDrop);
   });
 }
-
 function removeDrag() {
   const sections = document.querySelectorAll('.r-section');
   sections.forEach(sec => {
@@ -1089,22 +1256,18 @@ function removeDrag() {
     if (h) h.remove();
   });
 }
-
 function onDragStart(e) {
   dragSrc = this;
   this.classList.add('dragging');
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/plain', '');
 }
-
 function onDragEnd(e) {
   this.classList.remove('dragging');
   document.querySelectorAll('.r-section').forEach(s => {
     s.classList.remove('drag-over-top','drag-over-bottom');
   });
-  renumberSections();
 }
-
 function onDragOver(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
@@ -1118,34 +1281,33 @@ function onDragOver(e) {
     this.classList.add('drag-over-bottom');
   }
 }
-
 function onDragLeave(e) {
   this.classList.remove('drag-over-top','drag-over-bottom');
 }
-
 function onDrop(e) {
   e.preventDefault();
   if (this === dragSrc) return;
   const body = document.querySelector('.r-body');
   const rect = this.getBoundingClientRect();
   const mid = rect.top + rect.height / 2;
-
   this.classList.remove('drag-over-top','drag-over-bottom');
-
   if (e.clientY < mid) {
     body.insertBefore(dragSrc, this);
   } else {
     body.insertBefore(dragSrc, this.nextSibling);
   }
-  renumberSections();
 }
-
-function renumberSections() {
-  let n = 0;
-  document.querySelectorAll('.r-section .r-section-num').forEach(el => {
-    el.textContent = ++n;
-  });
+/* ── WIRE UP AUTOSAVE ── */
+document.querySelectorAll('input[type="text"], input[type="email"], textarea').forEach(el => {
+  el.addEventListener('input', scheduleAutosave);
+});
+const formSide = document.querySelector('.form-side');
+if (formSide) {
+  formSide.addEventListener('input', scheduleAutosave);
+  formSide.addEventListener('change', scheduleAutosave);
 }
+/* ── RESTORE ON LOAD ── */
+restoreForm();
 </script>
 </body>
 </html>
