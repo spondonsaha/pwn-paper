@@ -88,6 +88,88 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 .gen-btn { width:100%; padding:12px; border-radius:8px; border:none; background:#0f172a; color:white; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s; margin-top:18px; }
 .gen-btn:hover { background:#1e293b; box-shadow:0 4px 14px rgba(15,23,42,0.25); }
 
+/* ── CUSTOM SECTIONS ── */
+.custom-section-item {
+  border:1px solid #e2e8f0;
+  border-radius:8px;
+  overflow:hidden;
+  margin-bottom:10px;
+  background:#fafafa;
+  transition:box-shadow 0.15s;
+}
+.custom-section-item:focus-within {
+  box-shadow:0 0 0 3px rgba(99,102,241,0.08);
+  border-color:#c7d2fe;
+}
+.custom-section-header {
+  background:#f1f5f9;
+  padding:8px 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-bottom:1px solid #e2e8f0;
+}
+.custom-section-drag-icon {
+  color:#cbd5e1;
+  font-size:14px;
+  cursor:grab;
+  flex-shrink:0;
+  user-select:none;
+}
+.custom-section-header input {
+  flex:1;
+  background:transparent;
+  border:none;
+  font-size:12px;
+  font-weight:600;
+  color:#374151;
+  font-family:'Inter',sans-serif;
+  outline:none;
+  padding:0;
+}
+.custom-section-header input:focus {
+  box-shadow:none;
+  border:none;
+}
+.custom-section-header input::placeholder { color:#cbd5e1; font-weight:400; }
+.custom-section-body { padding:10px 12px; }
+.custom-section-body textarea {
+  border:none;
+  background:transparent;
+  border-radius:0;
+  padding:0;
+  min-height:70px;
+  font-size:13px;
+  resize:vertical;
+}
+.custom-section-body textarea:focus {
+  box-shadow:none;
+  border:none;
+  background:transparent;
+}
+.custom-section-remove {
+  background:none;
+  border:none;
+  color:#cbd5e1;
+  font-size:16px;
+  cursor:pointer;
+  padding:2px 4px;
+  border-radius:4px;
+  line-height:1;
+  transition:color 0.15s;
+  flex-shrink:0;
+}
+.custom-section-remove:hover { color:#ef4444; }
+.custom-sections-empty {
+  font-size:12px;
+  color:#94a3b8;
+  text-align:center;
+  padding:14px 0 8px;
+  font-style:italic;
+  display:none;
+}
+#custom-sections-list:empty + .custom-sections-empty { display:block; }
+
 /* ── PREVIEW ── */
 .preview-side { background:#f1f5f9; padding:28px 36px; overflow-y:auto; }
 .ptop { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
@@ -207,6 +289,17 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 /* Snippets in report body */
 .r-inline-code { display:inline-block; background:#0f172a; color:#e2e8f0; font-family:'JetBrains Mono',monospace; font-size:12px; padding:2px 8px; border-radius:4px; }
 
+/* Custom section in report — subtle tinted block */
+.r-custom-section-body {
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:7px;
+  padding:14px 16px;
+  font-size:13px;
+  color:#374151;
+  line-height:1.8;
+}
+
 /* ── DRAG & DROP ── */
 .r-section {
   position:relative;
@@ -308,48 +401,24 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
   .rcard { box-shadow:none; border-radius:0; }
   *{ -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; }
 
-  /* Prevent the card itself from being clipped */
   .rcard { overflow:visible !important; }
-
-  /* Keep header + researcher block together, never split */
   .r-topbar,
   .r-header,
   .r-researcher { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Each section should stay together on one page if possible */
   .r-section { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Section label should never be orphaned from its content */
   .r-section-label { page-break-after:avoid; break-after:avoid; }
-
-  /* Keep each step together */
   .r-step { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Keep code blocks together */
   .r-code-block { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Keep HTTP blocks together */
   .r-http-block { page-break-inside:avoid; break-inside:avoid; }
   .r-http-grid  { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Keep CVSS row together */
   .r-cvss { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Keep impact / remediation boxes together */
   .r-impact { page-break-inside:avoid; break-inside:avoid; }
   .r-rem    { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Keep researcher info block together */
   .r-researcher { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Footer should stay with the last section */
   .r-footer { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Never break inside a reference entry */
   .r-ref { page-break-inside:avoid; break-inside:avoid; }
-
-  /* Add a little top margin when a section is pushed to a new page */
   .r-section + .r-section { margin-top:0; }
+  .r-custom-section-body { page-break-inside:avoid; break-inside:avoid; }
 }
 </style>
 </head>
@@ -498,6 +567,13 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
       <textarea id="references" placeholder="https://owasp.org/...&#10;https://portswigger.net/...&#10;CVE-XXXX-XXXXX"></textarea>
     </div>
 
+    <!-- ── CUSTOM SECTIONS ── -->
+    <div class="fsec">Custom Sections <span class="opt-tag">optional</span></div>
+    <div style="font-size:11px;color:#94a3b8;margin-bottom:10px;line-height:1.5;">Add extra sections with a custom title and description. They will appear after Remediation in the report.</div>
+    <div id="custom-sections-list"></div>
+    <p class="custom-sections-empty">No custom sections yet. Click below to add one.</p>
+    <button class="badd" onclick="addCustomSection()" style="width:100%;justify-content:center;">+ Add Custom Section</button>
+
     <button class="gen-btn" onclick="generate()">Generate Report →</button>
   </div>
 
@@ -529,6 +605,7 @@ input::placeholder, textarea::placeholder { color:#cbd5e1; }
 let sev = '';
 let accentColor = 'red';
 let snippetCount = 0;
+let customSectionCount = 0;
 let activeTextarea = null;
 let selStart = 0, selEnd = 0;
 
@@ -541,6 +618,7 @@ const COLORS = {
   green:  { bar:'#16a34a', chipBg:'#f0fdf4', chipBorder:'#bbf7d0', chipText:'#15803d', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#eff6ff', remBorder:'#bfdbfe', remLeft:'#3b82f6' },
   violet: { bar:'#7c3aed', chipBg:'#f5f3ff', chipBorder:'#ddd6fe', chipText:'#6d28d9', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
   teal:   { bar:'#0891b2', chipBg:'#ecfeff', chipBorder:'#a5f3fc', chipText:'#0e7490', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
+  Ash:    { bar:'#595e69', chipBg:'#f1f5f9', chipBorder:'#cbd5e1', chipText:'#475569', impBg:'#fff7ed', impBorder:'#fed7aa', impLeft:'#f97316', remBg:'#f0fdf4', remBorder:'#bbf7d0', remLeft:'#22c55e' },
 };
 
 const SEV_STYLES = {
@@ -601,6 +679,36 @@ function rmStep(btn) {
 
 function getSteps() {
   return Array.from(document.querySelectorAll('#steps-list input')).map(i=>i.value.trim()).filter(Boolean);
+}
+
+/* ── CUSTOM SECTIONS ── */
+function addCustomSection(title='', description='') {
+  customSectionCount++;
+  const id = 'custom-sec-' + customSectionCount;
+  const wrap = document.createElement('div');
+  wrap.id = id;
+  wrap.className = 'custom-section-item';
+  wrap.innerHTML = `
+    <div class="custom-section-header">
+      <span class="custom-section-drag-icon" title="Section">✦</span>
+      <input type="text" placeholder="Section title (e.g. Proof of Concept, Timeline, Notes...)" value="${esc(title)}" />
+      <button class="custom-section-remove" onclick="document.getElementById('${id}').remove()" title="Remove section">×</button>
+    </div>
+    <div class="custom-section-body">
+      <textarea placeholder="Section content... (supports \`inline code\` and **bold** formatting)">${esc(description)}</textarea>
+    </div>
+  `;
+  document.getElementById('custom-sections-list').appendChild(wrap);
+}
+
+function getCustomSections() {
+  const results = [];
+  document.querySelectorAll('#custom-sections-list .custom-section-item').forEach(wrap => {
+    const title = wrap.querySelector('.custom-section-header input').value.trim();
+    const desc  = wrap.querySelector('.custom-section-body textarea').value.trim();
+    if (title || desc) results.push({ title: title || 'Custom Section', desc });
+  });
+  return results;
 }
 
 /* ── CODE SNIPPETS ── */
@@ -702,11 +810,10 @@ function wrapSnippet(type) {
 
 /* ── HELPERS ── */
 function esc(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 function renderText(s) {
-  // Handle `code`, **bold**, newlines
   return s
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/`([^`]+)`/g,'<span class="r-inline-code">$1</span>')
@@ -749,8 +856,9 @@ function generate() {
   const references = document.getElementById('references').value.trim();
   const steps = getSteps();
   const snippets = getSnippets();
+  const customSections = getCustomSections();
 
-  const c = COLORS[accentColor];
+  const c = COLORS[accentColor] || COLORS['red'];
   const ss = sev ? SEV_STYLES[sev] : null;
   const rid = 'VR-' + Date.now().toString(36).toUpperCase().slice(-6);
   const params = param ? param.split(',').map(p=>p.trim()).filter(Boolean) : [];
@@ -822,6 +930,14 @@ function generate() {
     ? `<div class="r-refs">${references.split('\n').filter(r=>r.trim()).map((r,i)=>`<div class="r-ref"><span class="r-ref-num">[${i+1}]</span><span>${esc(r.trim())}</span></div>`).join('')}</div>`
     : '';
 
+  // Custom sections
+  const customSectionsHtml = customSections.map(cs => `
+    <div class="r-section">
+      <div class="r-section-label">${sec(esc(cs.title))}</div>
+      <div class="r-custom-section-body">${cs.desc ? renderText(cs.desc) : '<span style="color:#94a3b8;font-style:italic">No content provided.</span>'}</div>
+    </div>
+  `).join('');
+
   secNum = 0;
 
   document.getElementById('output').innerHTML = `
@@ -890,6 +1006,8 @@ function generate() {
       <div class="r-rem" style="background:${c.remBg};border-color:${c.remBorder};border-left-color:${c.remLeft}">${renderText(remediation)}</div>
     </div>`:''}
 
+    ${customSectionsHtml}
+
     ${refsHtml?`<div class="r-section">
       <div class="r-section-label">${sec('References')}</div>
       ${refsHtml}
@@ -940,7 +1058,6 @@ function initDrag() {
   const sections = body.querySelectorAll('.r-section');
 
   sections.forEach(sec => {
-    // Add handle if not present
     if (!sec.querySelector('.drag-handle')) {
       const handle = document.createElement('div');
       handle.className = 'drag-handle';
